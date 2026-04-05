@@ -226,34 +226,68 @@ button:hover {
     width: 100%;
 }
 
-/* 8. DISEÑO PARA MÓVILES (Media Queries) */
+/* 8. DISEÑO PARA MÓVILES (Corrección de Scroll Lateral únicamente) */
 @media (max-width: 600px) {
+    /* Evita que el cuerpo entero se mueva a los lados */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+
     header {
         height: 150px; 
     }
+
     .titulo-centrado {
         font-size: 20px;
         margin-top: 15px;
     }
-    nav a {
-        margin: 5px 10px;
-        font-size: 13px;
+
+    /* Ajuste para que el menú no empuje la pantalla */
+    nav {
+        padding: 10px 0;
+        width: 100%;
+        box-sizing: border-box;
     }
+
+    nav a {
+        margin: 5px 8px; /* Reducido ligeramente para que quepan */
+        font-size: 13px;
+        display: inline-block;
+    }
+
     .footer-container {
         flex-direction: column;
         text-align: center;
         padding: 30px 10px;
+        width: 100%;
+        box-sizing: border-box; /* Fundamental para que el padding no ensanche el footer */
     }
+
     .footer-section {
         margin-bottom: 30px;
         min-width: 100%;
+        box-sizing: border-box;
     }
+
     .social-icons {
         justify-content: center;
     }
+
+    /* Asegura que el cuadro blanco no se salga */
     .lista-repo {
         width: 90%;
+        max-width: 90vw; 
         padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Si las tarjetas aún causan scroll, esto las mantiene dentro sin cambiar su tamaño */
+    section {
+        padding: 40px 10px;
+        overflow-x: hidden;
+        box-sizing: border-box;
     }
 }
 </style>
