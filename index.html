@@ -239,12 +239,12 @@ button:hover {
 
 .carousel-track {
     display: flex; 
-    width: 300%;   
+    width: 400%;   
     transition: transform 1s ease-in-out; 
 }
 
 .carousel-slide {
-    width: 33.333%; 
+    width: 25%; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -391,6 +391,7 @@ button:hover {
             <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
             <div class="carousel-slide"><img src="NOSOTROS1.png" alt="Equipo 2"></div>
             <div class="carousel-slide"><img src="NOSOTROS2.png" alt="Equipo 3"></div>
+            <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
         </div>
     </div>
 
@@ -528,20 +529,32 @@ function volverInicio() {
     window.scrollTo(0, 0);
 }
 
+
 let currentIndex = 0;
+const totalImagenesReales = 3; // Las que no son copias
+
 function moverCarrusel() {
     const track = document.getElementById('track');
     const seccionNosotros = document.getElementById('quienes-somos');
     
-    // Solo se mueve si la sección "Nosotros" está visible
     if (track && seccionNosotros.style.display !== 'none') {
         currentIndex++;
-        if (currentIndex >= 3) {
-            currentIndex = 0;
+        
+        // Movimiento fluido hacia adelante (25% porque ahora hay 4 divisiones)
+        track.style.transition = "transform 1s ease-in-out";
+        track.style.transform = `translateX(-${currentIndex * 25}%)`;
+
+        // Si llegamos a la imagen 4 (la copia de la primera)
+        if (currentIndex === totalImagenesReales) {
+            setTimeout(() => {
+                // Quitamos la animación un segundo para volver al inicio sin que se vea el viaje
+                track.style.transition = "none"; 
+                currentIndex = 0;
+                track.style.transform = `translateX(0)`;
+            }, 1000); // 1000ms es lo que tarda en moverse
         }
-        track.style.transform = `translateX(-${currentIndex * 33.3333}%)`;
     }
-}
+}    
 
 // Ejecuta la función cada 4 segundos
 setInterval(moverCarrusel, 4000);
