@@ -6,12 +6,9 @@
 <title>GEIPLAMIN - Repositorio Minero</title>
 
 <style>
-/* 1. Estilo general corregido */
-html, body {
+/* 1. Estilo general */
+body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden; /* <--- Esto prohíbe el deslizamiento a la derecha */
     font-family: Arial, sans-serif;
     background: #fdf6ec;
     color: #1a1a1a;
@@ -69,14 +66,13 @@ section {
 .card {
     background: white;
     padding: 20px;
-    margin: 10px auto;
+    margin: 10px;
     border-radius: 12px;
     display: inline-block;
-    width: calc(100% - 40px)
+    width: 90%;
     max-width: 280px; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     vertical-align: top;
-    box-sizing: border-box;
 }
 
 button {
@@ -233,61 +229,31 @@ button:hover {
 /* 8. DISEÑO PARA MÓVILES (Media Queries) */
 @media (max-width: 600px) {
     header {
-        /* Usamos auto y aspect-ratio para que el logo no se corte ni sobre espacio naranja */
-        height: auto; 
-        aspect-ratio: 16 / 9; 
-        background-size: contain;
+        height: 150px; 
     }
-
     .titulo-centrado {
         font-size: 20px;
         margin-top: 15px;
-        padding: 0 10px; /* Evita que el texto toque los bordes */
     }
-
-    nav {
-        padding: 10px 5px;
-        display: flex;
-        flex-wrap: wrap; /* <--- CLAVE: Hace que los botones salten de línea y no empujen la pantalla */
-        justify-content: center;
-        gap: 5px; /* Espacio uniforme entre botones */
-    }
-
     nav a {
-        margin: 5px;
+        margin: 5px 10px;
         font-size: 13px;
-        flex: 1 1 30%; /* Intenta acomodar 3 botones por fila de forma equilibrada */
-        min-width: 80px;
-        text-align: center;
     }
-
     .footer-container {
         flex-direction: column;
         text-align: center;
         padding: 30px 10px;
     }
-
     .footer-section {
         margin-bottom: 30px;
         min-width: 100%;
-        box-sizing: border-box; /* Evita que el padding ensanche la sección */
     }
-
     .social-icons {
         justify-content: center;
     }
-
     .lista-repo {
-        width: 95%; /* Aprovecha mejor el ancho del celular */
+        width: 90%;
         padding: 15px;
-        margin: 0 auto;
-        box-sizing: border-box;
-    }
-    
-    /* Corrección para las tarjetas de inicio */
-    .card {
-        width: calc(100% - 40px); /* Asegura que la tarjeta no sea más ancha que el celular */
-        margin: 10px auto;
     }
 }
 </style>
