@@ -4,39 +4,40 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GEIPLAMIN - Repositorio Minero</title>
 <style>
-:root{--bg-principal:#fff;--bg-tarjetas:#fff;--texto-principal:#333;--acento-naranja:#ff7a00;--sombra:rgba(0,0,0,0.1)}
+:root{--bg-principal:#ffffff;--bg-tarjetas:#ffffff;--texto-principal:#333333;--acento-naranja:#ff7a00;--sombra:rgba(0,0,0,0.1)}
 [data-theme="dark"]{--bg-principal:#121212;--bg-tarjetas:#1e1e1e;--texto-principal:#e0e0e0;--acento-naranja:#ff9d47;--sombra:rgba(255,122,0,0.2)}
-*{box-sizing:border-box}body{margin:0;padding:0;width:100%;overflow-x:hidden;font-family:Arial,sans-serif;background-color:var(--bg-principal);color:var(--texto-principal);transition:background-color .3s,color .3s}
-header{background:url('GEIPLAMIN.png') center/contain no-repeat #ff7a00;height:350px;width:100%}.titulo-centrado{text-align:center;color:#ff7a00;font-size:28px;font-weight:700;margin-top:30px}
-nav{background:#000;padding:10px;text-align:center;position:sticky;top:0;z-index:100;display:flex;flex-wrap:wrap;justify-content:center}
-nav a{color:#ffb066;margin:15px;text-decoration:none;font-weight:700}section{padding:60px 20px;text-align:center}
-.card{background-color:var(--bg-tarjetas);color:var(--texto-principal);padding:20px;margin:10px;border-radius:12px;display:inline-block;width:90%;max-width:280px;box-shadow:0 4px 10px rgba(0,0,0,.1);vertical-align:top;transition:transform .3s,box-shadow .3s}
-.card:hover{transform:translateY(-10px);box-shadow:0 12px 20px rgba(255,122,0,.3);border:1px solid #ff7a00}
-button{background:#ff7a00;border:none;padding:10px 15px;color:#fff;border-radius:8px;cursor:pointer;font-weight:700}button:hover{background:#e56700}
-.calendar{max-width:900px;margin:30px auto;background:#000;border-radius:10px;overflow:hidden;color:#fff}.calendar-header{text-align:center;padding:15px;font-size:28px;background:#000}
-.days{display:grid;grid-template-columns:repeat(7,1fr);background:#ff7a00}.days div{padding:10px;text-align:center;font-weight:700}
+*{box-sizing:border-box}body{margin:0;padding:0;width:100%;overflow-x:hidden;font-family:Arial,sans-serif;background-color:var(--bg-principal);color:var(--texto-principal);transition:background-color 0.3s ease,color 0.3s ease}
+header{background-image:url('GEIPLAMIN.png');background-size:contain;background-position:center;background-repeat:no-repeat;background-color:#ff7a00;height:350px;width:100%;margin:0}
+header h1,header p{display:none}.titulo-centrado{text-align:center;color:#ff7a00;font-size:28px;font-weight:bold;margin-top:30px}
+nav{background:#000000;padding:10px;text-align:center;position:sticky;top:0;z-index:100;display:flex;flex-wrap:wrap;justify-content:center}
+nav a{color:#ffb066;margin:15px;text-decoration:none;font-weight:bold}section{padding:60px 20px;text-align:center}
+.card{background-color:var(--bg-tarjetas);color:var(--texto-principal);padding:20px;margin:10px;border-radius:12px;display:inline-block;width:90%;max-width:280px;box-shadow:0 4px 10px rgba(0,0,0,0.1);vertical-align:top;transition:transform 0.3s ease,box-shadow 0.3s ease}
+.card:hover{transform:translateY(-10px);box-shadow:0 12px 20px rgba(255,122,0,0.3);border:1px solid #ff7a00}
+button{background:#ff7a00;border:none;padding:10px 15px;color:white;border-radius:8px;cursor:pointer;font-weight:bold}button:hover{background:#e56700}
+.calendar{max-width:900px;margin:30px auto;background:#000000;border-radius:10px;overflow:hidden;color:white}.calendar-header{text-align:center;padding:15px;font-size:28px;background:#000000}
+.days{display:grid;grid-template-columns:repeat(7,1fr);background:#ff7a00}.days div{padding:10px;text-align:center;font-weight:bold}
 .grid{display:grid;grid-template-columns:repeat(7,1fr)}.day{min-height:80px;border:1px solid #555;padding:5px;background:var(--bg-tarjetas);color:var(--texto-principal)}.weekend{background:#f5cba7}
-#recursos{display:none}.lista-repo{max-width:750px;margin:0 auto;text-align:left;background-color:var(--bg-tarjetas);padding:25px;border-radius:12px;box-shadow:0 4px 15px var(--sombra);transition:background-color .3s}
-.item-archivo{display:flex;justify-content:space-between;align-items:center;padding:15px;border-bottom:1px solid rgba(128,128,128,.2)}
-.footer-container{background-color:#000;color:#fff;padding:50px 20px;width:100%;display:flex;flex-wrap:wrap;justify-content:space-around;text-align:left;border-top:4px solid #ff7a00}
+#recursos{display:none}.lista-repo{max-width:750px;margin:0 auto;text-align:left;background-color:var(--bg-tarjetas);padding:25px;border-radius:12px;box-shadow:0 4px 15px var(--sombra);transition:background-color 0.3s ease}
+.item-archivo{display:flex;justify-content:space-between;align-items:center;padding:15px;border-bottom:1px solid rgba(128,128,128,0.2)}
+.footer-container{background-color:#000000;color:white;padding:50px 20px;width:100%;margin:0;display:flex;flex-wrap:wrap;justify-content:space-around;text-align:left;border-top:4px solid #ff7a00}
 .footer-section{flex:1;min-width:250px;margin-bottom:20px}.footer-section h3{color:#ff7a00;font-size:18px;margin-bottom:15px;text-transform:uppercase}
-.footer-logo img{max-width:200px;margin-bottom:15px}.footer-section p,.footer-section a{color:#ccc;text-decoration:none;font-size:14px;display:block;margin-bottom:8px}
-.social-icons{margin-top:20px;display:flex;gap:20px}.social-icons svg{width:40px!important;height:40px!important}.social-icons a{color:#ff7a00;transition:all .3s}
-.social-icons a:hover{transform:scale(1.2);color:#fff}.footer-bottom{background:#111;padding:15px;width:100%;text-align:center;color:#666;font-size:12px}
-.carousel-container{max-width:800px;margin:30px auto;overflow:hidden;border-radius:12px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,.2);border:3px solid #000}
+.footer-logo img{max-width:200px;margin-bottom:15px}.footer-section p,.footer-section a{color:#cccccc;text-decoration:none;font-size:14px;display:block;margin-bottom:8px}
+.social-icons{margin-top:20px;display:flex;gap:20px}.social-icons svg{width:40px!important;height:40px!important}.social-icons a{color:#ff7a00;transition:all 0.3s ease}
+.social-icons a:hover{transform:scale(1.2);color:#ffffff}.footer-bottom{background:#111;padding:15px;width:100%;margin:0;text-align:center;color:#666;font-size:12px}
+.carousel-container{max-width:800px;margin:30px auto;overflow:hidden;border-radius:12px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.2);border:3px solid #000}
 .carousel-track{display:flex;width:400%;transition:transform 1s ease-in-out}.carousel-slide{width:25%;display:flex;justify-content:center;align-items:center;background-color:#000}
-.carousel-slide img{width:100%;height:400px;object-fit:cover;display:block}
-.cuadro-nosotros{flex:1;min-width:280px;background-color:var(--bg-tarjetas)!important;color:var(--texto-principal);padding:20px;border-left:10px solid var(--acento-naranja)!important;border-radius:8px;box-shadow:0 4px 10px var(--sombra);border:1px solid rgba(128,128,128,.2);text-align:left;transition:all .3s}
+.carousel-slide img{width:100%;height:400px;object-fit:cover;object-position:center;display:block}
+.cuadro-nosotros{flex:1;min-width:280px;background-color:var(--bg-tarjetas)!important;color:var(--texto-principal);padding:20px;border-left:10px solid var(--acento-naranja)!important;border-radius:8px;box-shadow:0 4px 10px var(--sombra);border:1px solid rgba(128,128,128,0.2);text-align:left;transition:all 0.3s ease}
 .cuadro-nosotros h3{color:var(--acento-naranja)!important;text-transform:uppercase}
-.dark-mode-toggle{position:fixed;bottom:20px;right:20px;z-index:1001;background:var(--acento-naranja);color:#fff;border:none;padding:15px;border-radius:50%;cursor:pointer;font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,.3);transition:transform .2s}
-.dark-mode-toggle:hover{transform:scale(1.1)}.modal-pdf{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.9)}
-.modal-content-pdf{position:relative;margin:auto;width:90%;height:90%;top:5%}.close-modal{position:absolute;top:-40px;right:0;color:#fff;font-size:30px;font-weight:700;cursor:pointer}
+.dark-mode-toggle{position:fixed;bottom:20px;right:20px;z-index:1001;background:var(--acento-naranja);color:white;border:none;padding:15px;border-radius:50%;cursor:pointer;font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,0.3);transition:transform 0.2s ease}
+.dark-mode-toggle:hover{transform:scale(1.1)}.modal-pdf{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.9)}
+.modal-content-pdf{position:relative;margin:auto;padding:0;width:90%;height:90%;top:5%}.close-modal{position:absolute;top:-40px;right:0;color:white;font-size:30px;font-weight:bold;cursor:pointer}
 iframe{width:100%;height:100%;border:none;border-radius:8px}
-@media (max-width:600px){header{height:150px}.titulo-centrado{font-size:20px}.footer-container{flex-direction:column;text-align:center;padding:30px 10px}.lista-repo{width:90%;max-width:90vw}}
+@media (max-width:600px){header{height:150px}.titulo-centrado{font-size:20px;margin-top:15px}nav{padding:10px 0;width:100%;box-sizing:border-box}nav a{margin:5px 8px;font-size:13px;display:inline-block}.footer-container{flex-direction:column;text-align:center;padding:30px 10px;width:100%;box-sizing:border-box}.footer-section{margin-bottom:30px;min-width:100%;box-sizing:border-box}.social-icons{justify-content:center}.lista-repo{width:90%;max-width:90vw;padding:15px;box-sizing:border-box}section{padding:40px 10px;overflow-x:hidden;box-sizing:border-box}}
 </style>
 </head>
 <body>
-<button class="dark-mode-toggle" onclick="toggleDarkMode()">🔦</button>
+<button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Cambiar Modo">🔦</button>
 <header></header>
 <nav>
 <a href="javascript:void(0)" onclick="volverInicio()">Inicio</a>
@@ -57,4 +58,11 @@ iframe{width:100%;height:100%;border:none;border-radius:8px}
 <div class="card"><h3>🎥 Charlas</h3><p>Grabaciones de charlas anteriores.</p><button onclick="window.open('https://drive.google.com/drive/folders/15pMKip8ih5PICY_FSBlsQsqOQPW4va9Z','_blank')">Ver Charlas</button></div>
 </section>
 
-<section id="quienes-somos" style
+<section id="quienes-somos" style="display:none">
+<h2>👥 ¿Quiénes Somos?</h2>
+<div class="lista-repo" style="text-align:justify;line-height:1.8;margin-top:10px;background:none;box-shadow:none;max-width:800px;margin-left:auto;margin-right:auto">
+<p style="font-size:18px;color:var(--texto-principal);margin-bottom:25px;text-align:center"><strong>GEIPLAMIN</strong> es un colectivo estudiantil de la Escuela Profesional de Ingeniería de Minas de la <strong>UNMSM</strong>, dedicado a explorar, desarrollar y compartir conocimientos especializados en planeamiento minero.</p>
+</div>
+<div class="carousel-container"><div class="carousel-track" id="track">
+<div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div><div class="carousel-slide"><img src="NOSOTROS1.png" alt="Equipo 2"></div><div class="carousel-slide"><img src="NOSOTROS2.png" alt="Equipo 3"></div><div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
+</div>
