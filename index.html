@@ -92,7 +92,8 @@ section {
 }
 
 .card {
-    background: white;
+    background-color: var(--bg-tarjetas); /* CAMBIADO */
+    color: var(--texto-principal);        /* AÑADIDO */
     padding: 20px;
     margin: 10px;
     border-radius: 12px;
@@ -162,8 +163,8 @@ button:hover {
     min-height: 80px;
     border: 1px solid #555;
     padding: 5px;
-    background: #ecf0f1;
-    color: black;
+    background: var(--bg-tarjetas); /* Usará el gris oscuro en modo dark */
+    color: var(--texto-principal); /* Usará el blanco/gris claro en modo dark */
 }
 
 .weekend {
@@ -179,10 +180,13 @@ button:hover {
     max-width: 750px;
     margin: 0 auto;
     text-align: left;
-    background: white;
+    /* CAMBIO AQUÍ: Usamos la variable de fondo de tarjetas */
+    background-color: var(--bg-tarjetas); 
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    /* CAMBIO AQUÍ: Usamos la variable de sombra */
+    box-shadow: 0 4px 15px var(--sombra); 
+    transition: background-color 0.3s ease; /* Para que el panel también cambie suavemente */
 }
 
 .item-archivo {
@@ -190,7 +194,8 @@ button:hover {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    /* Cambiamos el color fijo #eee por algo más sutil */
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2); 
 }
 
 /* 7. Footer */
@@ -300,19 +305,25 @@ button:hover {
 .cuadro-nosotros {
     flex: 1; 
     min-width: 280px; 
-    background: #fdf6ec !important; /* Fondo Crema */
+    /* Cambiamos el crema fijo por la variable de tarjetas */
+    background-color: var(--bg-tarjetas) !important; 
+    /* Aseguramos que el texto use la variable de color de fuente */
+    color: var(--texto-principal);
     padding: 20px; 
-    border-left: 10px solid #000000 !important; /* Borde Negro Grueso */
+    /* Cambiamos el negro fijo por el naranja de acento para que resalte más */
+    border-left: 10px solid var(--acento-naranja) !important; 
     border-radius: 8px; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-top: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    box-shadow: 0 4px 10px var(--sombra);
+    /* Suavizamos los bordes para que no se vean blancos en modo oscuro */
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
     text-align: left;
+    transition: all 0.3s ease;
 }
 
 .cuadro-nosotros h3 {
-    color: #000 !important; /* Título Negro */
+    color: var(--acento-naranja) !important; /* En lugar de #000 */
     text-transform: uppercase;
 }
 
@@ -487,7 +498,7 @@ iframe {
     <h2>👥 ¿Quiénes Somos?</h2>
 
     <div class="lista-repo" style="text-align: justify; line-height: 1.8; margin-top: 10px; background: none; box-shadow: none; max-width: 800px; margin-left: auto; margin-right: auto;">
-        <p style="font-size: 18px; color: #333; margin-bottom: 25px; text-align: center;">
+        <p style="font-size: 18px; color: var(--texto-principal); margin-bottom: 25px; text-align: center;">
             <strong>GEIPLAMIN</strong> es un colectivo estudiantil de la Escuela Profesional de Ingeniería de Minas de la <strong>UNMSM</strong>, dedicado a explorar, desarrollar y compartir conocimientos especializados en planeamiento minero.
         </p>
     </div>
@@ -623,8 +634,8 @@ iframe {
     <h2>Material Bibliográfico</h2>
     
     <div style="text-align: center; margin-bottom: 20px;">
-        <input type="text" id="buscador" onkeyup="filtrarArchivos()" placeholder="🔍 Buscar material (ej. MinePlan, Drones...)" 
-        style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid #ff7a00; outline: none;">
+       <input type="text" id="buscador" onkeyup="filtrarArchivos()" placeholder="🔍 Buscar material..." 
+style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
     </div>
     
     <div class="lista-repo">
@@ -725,17 +736,23 @@ function filtrarArchivos() {
 // --- 3. MODO OSCURO (MODO MINERO) ---
 function toggleDarkMode() {
     const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    const btn = document.querySelector('.dark-mode-toggle');
-    
-    if (currentTheme === 'dark') {
+    // Si el tema actual es oscuro, pásalo a claro, si no, a oscuro
+    if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
-        btn.innerHTML = "🔦";
+        localStorage.setItem('theme', 'light');
     } else {
         body.setAttribute('data-theme', 'dark');
-        btn.innerHTML = "☀️";
+        localStorage.setItem('theme', 'dark');
     }
 }
+
+// Esto hace que si el usuario refresca la página, se mantenga su preferencia
+window.onload = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+};
 
 // --- 4. MODAL PDF ---
 function verPDF(url) {
