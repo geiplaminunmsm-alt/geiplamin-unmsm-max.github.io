@@ -1,153 +1,786 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEIPLAMIN - Repositorio Minero</title>
-    <style>
-        :root { --bg-principal: #ffffff; --bg-tarjetas: #ffffff; --texto-principal: #333333; --acento-naranja: #ff7a00; --sombra: rgba(0,0,0,0.1); }
-        [data-theme="dark"] { --bg-principal: #121212; --bg-tarjetas: #1e1e1e; --texto-principal: #e0e0e0; --acento-naranja: #ff9d47; --sombra: rgba(255, 122, 0, 0.2); }
-        * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; font-family: Arial, sans-serif; background-color: var(--bg-principal); color: var(--texto-principal); transition: background-color 0.3s ease, color 0.3s ease; }
-        header { background-image: url('GEIPLAMIN.png'); background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #ff7a00; height: 350px; width: 100%; margin: 0; }
-        header h1, header p { display: none; }
-        .titulo-centrado { text-align: center; color: #ff7a00; font-size: 28px; font-weight: bold; margin-top: 30px; }
-        nav { background: #000000; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; flex-wrap: wrap; justify-content: center; }
-        nav a { color: #ffb066; margin: 15px; text-decoration: none; font-weight: bold; }
-        section { padding: 60px 20px; text-align: center; }
-        .card { background-color: var(--bg-tarjetas); color: var(--texto-principal); padding: 20px; margin: 10px; border-radius: 12px; display: inline-block; width: 90%; max-width: 280px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); vertical-align: top; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 12px 20px rgba(255, 122, 0, 0.3); border: 1px solid #ff7a00; }
-        button { background: #ff7a00; border: none; padding: 10px 15px; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .calendar { max-width: 900px; margin: 30px auto; background: #000000; border-radius: 10px; overflow: hidden; color: white; }
-        .calendar-header { text-align: center; padding: 15px; font-size: 28px; }
-        .days { display: grid; grid-template-columns: repeat(7, 1fr); background: #ff7a00; }
-        .days div { padding: 10px; text-align: center; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-        .day { min-height: 80px; border: 1px solid #555; padding: 5px; background: var(--bg-tarjetas); color: var(--texto-principal); }
-        .weekend { background: #f5cba7; }
-        #recursos { display: none; }
-        .lista-repo { max-width: 750px; margin: 0 auto; text-align: left; background-color: var(--bg-tarjetas); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px var(--sombra); }
-        .item-archivo { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid rgba(128, 128, 128, 0.2); }
-        .footer-container { background-color: #000000; color: white; padding: 50px 20px; width: 100%; display: flex; flex-wrap: wrap; justify-content: space-around; border-top: 4px solid #ff7a00; }
-        .footer-section { flex: 1; min-width: 250px; margin-bottom: 20px; }
-        .footer-section h3 { color: #ff7a00; font-size: 18px; margin-bottom: 15px; text-transform: uppercase; }
-        .footer-logo img { max-width: 200px; margin-bottom: 15px; }
-        .footer-section p, .footer-section a { color: #cccccc; text-decoration: none; font-size: 14px; display: block; margin-bottom: 8px; }
-        .social-icons { margin-top: 20px; display: flex; gap: 20px; }
-        .social-icons svg { width: 40px !important; height: 40px !important; }
-        .social-icons a { color: #ff7a00; transition: all 0.3s ease; }
-        .footer-bottom { background: #111; padding: 15px; width: 100%; text-align: center; color: #666; font-size: 12px; }
-        .carousel-container { max-width: 800px; margin: 30px auto; overflow: hidden; border-radius: 12px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 3px solid #000; }
-        .carousel-track { display: flex; width: 400%; transition: transform 1s ease-in-out; }
-        .carousel-slide { width: 25%; display: flex; justify-content: center; align-items: center; background-color: #000; }
-        .carousel-slide img { width: 100%; height: 400px; object-fit: cover; display: block; }
-        .cuadro-nosotros { flex: 1; min-width: 280px; background-color: var(--bg-tarjetas) !important; color: var(--texto-principal); padding: 20px; border-left: 10px solid var(--acento-naranja) !important; border-radius: 8px; box-shadow: 0 4px 10px var(--sombra); text-align: left; transition: all 0.3s ease; }
-        .cuadro-nosotros h3 { color: var(--acento-naranja) !important; text-transform: uppercase; }
-        .dark-mode-toggle { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: var(--acento-naranja); color: white; border: none; padding: 15px; border-radius: 50%; cursor: pointer; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .modal-pdf { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
-        .modal-content-pdf { position: relative; margin: auto; width: 90%; height: 90%; top: 5%; }
-        .close-modal { position: absolute; top: -40px; right: 0; color: white; font-size: 30px; font-weight: bold; cursor: pointer; }
-        iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
-        @media (max-width: 600px) { header { height: 150px; } .titulo-centrado { font-size: 20px; } nav a { margin: 5px 8px; font-size: 13px; } .footer-container { flex-direction: column; text-align: center; } .lista-repo { width: 90%; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEIPLAMIN - Repositorio Minero</title>
+
+<style>
+/* 1. Estilo general y Variables de Color (NUEVO) */
+:root {
+    /* Colores Modo Claro (Normal) */
+    --bg-principal: #ffffff;
+    --bg-tarjetas: #ffffff;
+    --texto-principal: #333333;
+    --acento-naranja: #ff7a00; /* Naranja estándar */
+    --sombra: rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] {
+    /* Colores Modo Minero (Oscuro) */
+    --bg-principal: #121212; /* Gris oscuro profundo */
+    --bg-tarjetas: #1e1e1e; /* Gris ligeramente más claro para tarjetas */
+    --texto-principal: #e0e0e0; /* Gris muy claro, no blanco puro */
+    --acento-naranja: #ff9d47; /* Naranja Neón brillante */
+    --sombra: rgba(255, 122, 0, 0.2); /* Sombra naranja suave */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    /* APLICAMOS LAS VARIABLES (NUEVO) */
+    background-color: var(--bg-principal);
+    color: var(--texto-principal);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Suaviza el cambio */
+}
+
+/* 2. Header (Imagen principal) */
+header {
+    background-image: url('GEIPLAMIN.png'); 
+    background-size: contain;    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ff7a00; /* Rellena los costados con naranja */
+    height: 350px;               
+    width: 100%;
+    margin: 0;
+}
+
+header h1, header p {
+    display: none;
+}
+
+.titulo-centrado {
+    text-align: center;
+    color: #ff7a00;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+    
+/* 3. Navegación */
+nav {
+    background: #000000;
+    padding: 10px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    color: #ffb066;
+    margin: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* 4. Secciones y Tarjetas */
+section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.card {
+    background-color: var(--bg-tarjetas); /* CAMBIADO */
+    color: var(--texto-principal);        /* AÑADIDO */
+    padding: 20px;
+    margin: 10px;
+    border-radius: 12px;
+    display: inline-block;
+    width: 90%;
+    max-width: 280px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    vertical-align: top;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* ESTO AGREGA EL MOVIMIENTO */
+}
+
+  .card:hover {
+    transform: translateY(-10px); /* La tarjeta sube un poquito */
+    box-shadow: 0 12px 20px rgba(255, 122, 0, 0.3); /* Sombra naranja suave */
+    border: 1px solid #ff7a00;
+  }
+
+button {
+    background: #ff7a00;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #e56700;
+}
+
+/* 5. Calendario */
+.calendar {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #000000;
+    border-radius: 10px;
+    overflow: hidden;
+    color: white;
+}
+
+.calendar-header {
+    text-align: center;
+    padding: 15px;
+    font-size: 28px;
+    background: #000000;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #ff7a00;
+}
+
+.days div {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+    min-height: 80px;
+    border: 1px solid #555;
+    padding: 5px;
+    background: var(--bg-tarjetas); /* Usará el gris oscuro en modo dark */
+    color: var(--texto-principal); /* Usará el blanco/gris claro en modo dark */
+}
+
+.weekend {
+    background: #f5cba7;
+}
+
+/* 6. Repositorio de Archivos */
+#recursos {
+    display: none; 
+}
+
+.lista-repo {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: left;
+    /* CAMBIO AQUÍ: Usamos la variable de fondo de tarjetas */
+    background-color: var(--bg-tarjetas); 
+    padding: 25px;
+    border-radius: 12px;
+    /* CAMBIO AQUÍ: Usamos la variable de sombra */
+    box-shadow: 0 4px 15px var(--sombra); 
+    transition: background-color 0.3s ease; /* Para que el panel también cambie suavemente */
+}
+
+.item-archivo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    /* Cambiamos el color fijo #eee por algo más sutil */
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2); 
+}
+
+/* 7. Footer */
+.footer-container {
+    background-color: #000000;
+    color: white;
+    padding: 50px 20px;
+    width: 100%;    /* 1. Fuerza el ancho total */
+    margin: 0;      /* 2. Quita cualquier margen externo */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: left;
+    border-top: 4px solid #ff7a00;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    color: #ff7a00;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.footer-logo img {
+    max-width: 200px;
+    margin-bottom: 15px;
+}
+
+.footer-section p, .footer-section a {
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons svg {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.social-icons a {
+    color: #ff7a00;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+    color: #ffffff;
+}
+
+.footer-bottom {
+    background: #111;
+    padding: 15px;
+    width: 100%;   /* Estira al 100% */
+    margin: 0;     /* Sin margen */
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+}
+/* --- 9. CARRUSEL Y AJUSTES NOSOTROS --- */
+.carousel-container {
+    max-width: 800px; 
+    margin: 30px auto; 
+    overflow: hidden; 
+    border-radius: 12px; 
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    border: 3px solid #000; 
+}
+
+.carousel-track {
+    display: flex; 
+    width: 400%;   
+    transition: transform 1s ease-in-out; 
+}
+
+.carousel-slide {
+    width: 25%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000; 
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 400px; 
+    object-fit: cover; 
+    object-position: center; 
+    display: block;
+}
+
+/* Cuadros Misión/Visión actualizados */
+.cuadro-nosotros {
+    flex: 1; 
+    min-width: 280px; 
+    /* Cambiamos el crema fijo por la variable de tarjetas */
+    background-color: var(--bg-tarjetas) !important; 
+    /* Aseguramos que el texto use la variable de color de fuente */
+    color: var(--texto-principal);
+    padding: 20px; 
+    /* Cambiamos el negro fijo por el naranja de acento para que resalte más */
+    border-left: 10px solid var(--acento-naranja) !important; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px var(--sombra);
+    /* Suavizamos los bordes para que no se vean blancos en modo oscuro */
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.cuadro-nosotros h3 {
+    color: var(--acento-naranja) !important; /* En lugar de #000 */
+    text-transform: uppercase;
+}
+
+/* 8. DISEÑO PARA MÓVILES (Corrección de Scroll Lateral únicamente) */
+@media (max-width: 600px) {
+    /* Evita que el cuerpo entero se mueva a los lados */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+
+    header {
+        height: 150px; 
+    }
+
+    .titulo-centrado {
+        font-size: 20px;
+        margin-top: 15px;
+    }
+
+    /* Ajuste para que el menú no empuje la pantalla */
+    nav {
+        padding: 10px 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    nav a {
+        margin: 5px 8px; /* Reducido ligeramente para que quepan */
+        font-size: 13px;
+        display: inline-block;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 10px;
+        width: 100%;
+        box-sizing: border-box; /* Fundamental para que el padding no ensanche el footer */
+    }
+
+    .footer-section {
+        margin-bottom: 30px;
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    /* Asegura que el cuadro blanco no se salga */
+    .lista-repo {
+        width: 90%;
+        max-width: 90vw; 
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Si las tarjetas aún causan scroll, esto las mantiene dentro sin cambiar su tamaño */
+    section {
+        padding: 40px 10px;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+}
+
+/* 9 Botón Flotante para cambiar Modo (NUEVO) */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 20px; /* Esquina inferior */
+    right: 20px;   /* Esquina derecha */
+    z-index: 1001; /* Por encima de todo */
+    background: var(--acento-naranja); /* Usa el naranja dinámico */
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%; /* Redondo */
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.1); /* Agranda un poquito al pasar el mouse */
+}
+
+/* --- 10. MODAL DE PREVISUALIZACIÓN PDF --- */
+.modal-pdf {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content-pdf {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+}
+
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+</style>
 </head>
 <body>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🔦</button>
-    <header></header> 
-    <nav>
-        <a href="javascript:void(0)" onclick="volverInicio()">Inicio</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('quienes-somos')">Nosotros</a>
-        <a href="javascript:void(0)" onclick="mostrarMaterial()">Material</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('grupos-inv')">Grupos</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('convocatoria')">Convocatoria</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('software')">Software</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('eventos')">Eventos</a>
-    </nav>
+<button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Cambiar Modo">
+    🔦
+</button>
+    
+<header></header> 
+<nav>
+    <a href="javascript:void(0)" onclick="volverInicio()">Inicio</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('quienes-somos')">Nosotros</a>
+    <a href="javascript:void(0)" onclick="mostrarMaterial()">Material</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('grupos-inv')">Grupos</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('convocatoria')">Convocatoria</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('software')">Software</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('eventos')">Eventos</a>
+</nav>
 
-    <div class="titulo-centrado">Repositorio de Planeamiento Minero UNMSM</div>
+<div class="titulo-centrado">
+    Repositorio de Planeamiento Minero UNMSM
+</div>
 
-    <section id="inicio">
-        <p>Bienvenidos al repositorio académico enfocado en planeamiento minero para estudiantes de Ingeniería de Minas.</p>
-        <div class="card"><h3>📚 Material Bibliográfico</h3><button onclick="mostrarMaterial()">Explorar</button></div>
-        <div class="card"><h3>🎓 Eventos y talleres</h3><button onclick="mostrarSeccion('eventos')">Ir al calendario</button></div>
-        <div class="card"><h3>🎥 Charlas</h3><button onclick="window.open('https://drive.google.com/drive/folders/15pMKip8ih5PICY_FSBlsQsqOQPW4va9Z', '_blank')">Ver Charlas</button></div>
-    </section>
+<section id="inicio">
+    <p>Bienvenidos al repositorio académico enfocado en planeamiento minero para estudiantes de Ingeniería de Minas.</p>
+    <div class="card">
+        <h3>📚 Material Bibliográfico</h3>
+        <p>Libros, PDFs y contenido académico de planeamiento.</p>
+        <button onclick="mostrarMaterial()">Explorar</button>
+    </div>
 
-    <section id="quienes-somos" style="display:none;">
-        <h2>👥 ¿Quiénes Somos?</h2>
-        <div class="carousel-container"><div class="carousel-track" id="track">
-            <div class="carousel-slide"><img src="NOSOTROS.png"></div>
-            <div class="carousel-slide"><img src="NOSOTROS1.png"></div>
-            <div class="carousel-slide"><img src="NOSOTROS2.png"></div>
-            <div class="carousel-slide"><img src="NOSOTROS.png"></div>
-        </div></div>
-        <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
-            <div class="cuadro-nosotros" style="border-bottom:5px solid #000"><h3>🎯 Misión</h3><p>Impulsar el perfil profesional en Planeamiento Minero.</p></div>
-            <div class="cuadro-nosotros" style="border-bottom:5px solid #000"><h3>👁️ Visión</h3><p>Ser reconocidos como un grupo de estudio referente.</p></div>
-        </div>
-    </section>
+    <div class="card">
+        <h3>🎓 Eventos y talleres</h3>
+        <p>Actividades programadas.</p>
+        <button onclick="mostrarSeccion('eventos')">Ir al calendario</button>
+    </div>
 
-    <section id="grupos-inv" style="display:none;">
-        <h2>🔬 Grupos de Investigación</h2>
-        <div class="lista-repo"><div class="item-archivo"><b>📂 Repositorio de Proyectos</b><button onclick="window.open('https://drive.google.com/drive/folders/1CYGBnZrehxe5AeovOPb6-GS9XCehoefC')">Abrir Drive</button></div></div>
-    </section>
+    <div class="card">
+        <h3>🎥 Charlas</h3>
+        <p>Grabaciones de charlas anteriores.</p>
+        <button onclick="window.open('https://drive.google.com/drive/folders/15pMKip8ih5PICY_FSBlsQsqOQPW4va9Z', '_blank')">Ver Charlas</button>
+    </div>
+</section> 
 
-    <section id="convocatoria" style="display:none;">
-        <h2>📢 Convocatoria GEIPLAMIN 2026</h2>
-        <div class="lista-repo"><p style="text-align:center; color:#888;">Próximamente... ⚒️</p></div>
-    </section>
+<section id="quienes-somos" style="display:none;">
+    <h2>👥 ¿Quiénes Somos?</h2>
 
-    <section id="software" style="display:none;">
-        <h2>Software</h2>
-        <div class="card">Manual Datamine</div><div class="card">Manual Deswik</div>
-    </section>
+    <div class="lista-repo" style="text-align: justify; line-height: 1.8; margin-top: 10px; background: none; box-shadow: none; max-width: 800px; margin-left: auto; margin-right: auto;">
+        <p style="font-size: 18px; color: var(--texto-principal); margin-bottom: 25px; text-align: center;">
+            <strong>GEIPLAMIN</strong> es un colectivo estudiantil de la Escuela Profesional de Ingeniería de Minas de la <strong>UNMSM</strong>, dedicado a explorar, desarrollar y compartir conocimientos especializados en planeamiento minero.
+        </p>
+    </div>
 
-    <section id="eventos" style="display:none;">
-        <h2>Calendario 2026</h2>
-        <div class="calendar"><div class="calendar-header">Abril 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid">
-            <div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day weekend">4</div><div class="day weekend">5</div><div class="day">6</div><div class="day" style="background:#fff3e0">7<br><small>CONVOCATORIA</small></div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day weekend">11</div><div class="day weekend">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day weekend" style="background:#ffebee">18<br><small>CIERRE</small></div><div class="day weekend">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day weekend">25</div><div class="day weekend">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div>
-        </div></div>
-    </section>
-
-    <section id="recursos">
-        <h2>Material Bibliográfico</h2>
-        <div style="text-align:center; margin-bottom:20px;"><input type="text" id="buscador" onkeyup="filtrarArchivos()" placeholder="🔍 Buscar material..." style="padding:12px; width:80%; border-radius:25px; border:2px solid var(--acento-naranja); background:var(--bg-tarjetas); color:var(--texto-principal);"></div>
-        <div class="lista-repo">
-            <div class="item-archivo"><b>📕 VENTILACIÓN MINERA</b><button onclick="verPDF('VENTILACIÓN MINERA.pdf')">Ver PDF</button></div>
-            <div class="item-archivo"><b>📓 CARTERA DE PROYECTOS</b><button onclick="verPDF('CARTERA DE PROYECTOS .pdf')">Ver PDF</button></div>
-            <div class="item-archivo"><b>📗 USO DE DRONES</b><button onclick="verPDF('USO DE DRONES EN TOPOGRAFÍA MINERA.pdf')">Ver PDF</button></div>
-            <div class="item-archivo"><b>📘 SUBLEVEL STOPING</b><button onclick="verPDF('SUBLEVEL STOPING VETAS ANGOSTAS.pdf')">Ver PDF</button></div>
-            <div class="item-archivo"><b>📙 Algoritmo Lerch & Grossman</b><button onclick="verPDF('ALGORITMO DE LERCH & GROSSMAN.pdf')">Ver PDF</button></div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section"><img src="LOGO.png" width="150"><p>GEIPLAMIN - UNMSM</p></div>
-            <div class="footer-section"><h3>Networking</h3><a href="javascript:void(0)" onclick="mostrarSeccion('quienes-somos')">Nosotros</a><a href="javascript:void(0)" onclick="mostrarSeccion('grupos-inv')">Grupos</a></div>
-            <div class="footer-section"><h3>Contáctanos</h3><p>📧 geiplamin.unmsm.24@gmail.com</p></div>
-        </div>
-        <div class="footer-bottom">© 2026 GEIPLAMIN</div>
-    </footer>
-
-    <div id="pdfModal" class="modal-pdf">
-        <div class="modal-content-pdf">
-            <span class="close-modal" onclick="cerrarPDF()">&times; Cerrar</span>
-            <iframe id="pdfFrame" src=""></iframe>
+    <div class="carousel-container">
+        <div class="carousel-track" id="track">
+            <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
+            <div class="carousel-slide"><img src="NOSOTROS1.png" alt="Equipo 2"></div>
+            <div class="carousel-slide"><img src="NOSOTROS2.png" alt="Equipo 3"></div>
+            <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
         </div>
     </div>
 
-    <script>
-        function ocultarTodo(){['inicio','software','eventos','recursos','quienes-somos','grupos-inv','convocatoria'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';})}
-        function mostrarSeccion(id){ocultarTodo();const s=document.getElementById(id);if(s){s.style.display='block';window.scrollTo(0,0);}}
-        function volverInicio(){mostrarSeccion('inicio')}
-        function mostrarMaterial(){mostrarSeccion('recursos')}
-        function filtrarArchivos(){const input=document.getElementById('buscador'),filter=input.value.toUpperCase(),items=document.getElementsByClassName('item-archivo');for(let i=0;i<items.length;i++){const txt=items[i].innerText;items[i].style.display=txt.toUpperCase().includes(filter)?"":"none";}}
-        function toggleDarkMode(){const b=document.body;if(b.getAttribute('data-theme')==='dark'){b.removeAttribute('data-theme');localStorage.setItem('theme','light');}else{b.setAttribute('data-theme','dark');localStorage.setItem('theme','dark');}}
-        function verPDF(url){document.getElementById('pdfFrame').src=url;document.getElementById('pdfModal').style.display='block';}
-        function cerrarPDF(){document.getElementById('pdfModal').style.display='none';document.getElementById('pdfFrame').src='';}
-        let sIdx=0;setInterval(()=>{const t=document.getElementById('track');if(t){sIdx++;if(sIdx>=4)sIdx=0;t.style.transform=`translateX(-${sIdx*25}%)`;}},3500);
-        window.onload=()=>{if(localStorage.getItem('theme')==='dark')document.body.setAttribute('data-theme','dark');};
-    </script>
+    <div class="lista-repo" style="background: none; box-shadow: none; margin-top: 30px;">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; text-align: center;">
+            
+            <div class="cuadro-nosotros" style="text-align: center; border-left: none; border-bottom: 5px solid #000;">
+                <h3><span style="color: #ff7a00;">🎯 Misión</span></h3>
+                <p>Impulsar el perfil profesional desarrollando una sólida base teórica y habilidades prácticas en Planeamiento Minero.</p>
+            </div>
+            
+            <div class="cuadro-nosotros" style="text-align: center; border-left: none; border-bottom: 5px solid #000;">
+                <h3><span style="color: #ff7a00;">👁️ Visión</span></h3>
+                <p>Ser reconocidos como un grupo de estudio referente, capaz de formar líderes estudiantiles e ingenieros competentes.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="grupos-inv" style="display:none;">
+    <h2>🔬 Grupos de Investigación</h2>
+    <div class="lista-repo">
+        <div class="item-archivo">
+            <div>
+                <strong>📂 Repositorio de Proyectos e Investigaciones</strong>
+                <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">Accede a nuestra carpeta compartida de Google Drive.</p>
+            </div>
+            <a href="https://drive.google.com/drive/folders/1CYGBnZrehxe5AeovOPb6-GS9XCehoefC?usp=drive_link" target="_blank">
+                <button style="background: #2ecc71;">Abrir Drive</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="convocatoria" style="display:none;">
+    <h2>📢 Convocatoria GEIPLAMIN 2026</h2>
+    <div class="lista-repo" style="text-align: center; padding: 50px;">
+        <p style="color: #888; font-style: italic;">Próximamente publicaremos las bases aquí. ⚒️</p>
+    </div>
+</section>
+
+<section id="software" style="display:none;">
+    <h2>Software</h2>
+    <p>Manuales, guías y acceso a licencias de software minero.</p>
+    <div class="card">Manual Datamine</div>
+    <div class="card">Manual Deswik</div>
+    <div class="card">Licencias (acceso restringido)</div>
+</section>
+
+<section id="eventos" style="display:none;">
+    <h2>Calendario 2026</h2>
+    
+    <p style="text-align: center; margin-bottom: 30px; color: #444; font-size: 18px; line-height: 1.3;">
+        <strong>¡Bienvenido a nuestro calendario oficial!</strong>
+        <br>
+        Consulta aquí nuestras actividades programadas y agenda las fechas importantes. ⚒️
+    </p>
+
+    <div class="calendar">
+        <div class="calendar-header">Abril 2026</div>
+        <div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div>
+        <div class="grid">
+    <div class="day"></div><div class="day"></div>
+    <div class="day">1</div><div class="day">2</div><div class="day">3</div>
+    <div class="day weekend">4</div>
+    
+    <div class="day weekend" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff3e0;">
+        <span style="position: absolute; top: 2px; right: 2px; font-size: 14px;">📌</span>
+        5
+        <span style="font-size: 11px; color: #ff7a00; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.2;">
+            PUBLICACIÓN<br>DIRECTIVA
+        </span>
+    </div>
+
+    <div class="day">6</div>
+    
+    <div class="day" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff3e0;">
+        <span style="position: absolute; top: 2px; right: 2px; font-size: 14px;">📌</span>
+        7
+        <span style="font-size: 11px; color: #000000; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.2;">
+            CONVOCATORIA<br>MIEMBROS
+        </span>
+    </div>
+
+    <div class="day">8</div><div class="day">9</div><div class="day">10</div>
+    <div class="day weekend">11</div><div class="day weekend">12</div>
+    <div class="day">13</div><div class="day">14</div><div class="day">15</div>
+    <div class="day">16</div><div class="day">17</div>
+    
+    <div class="day weekend" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffebee;">
+        <span style="position: absolute; top: 2px; right: 2px; font-size: 14px;">📌</span>
+        18
+        <span style="font-size: 11px; color: #b71c1c; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.2;">
+            CIERRE<br>CONVOCATORIA
+        </span>
+    </div>
+
+    <div class="day weekend">19</div><div class="day">20</div><div class="day">21</div>
+    <div class="day">22</div><div class="day">23</div><div class="day">24</div>
+    <div class="day weekend">25</div><div class="day weekend">26</div>
+    <div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div>
+</div>
+
+    <div class="calendar"><div class="calendar-header">Mayo 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day weekend">3</div><div class="day weekend">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day weekend">10</div><div class="day weekend">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day weekend">17</div><div class="day weekend">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day weekend">24</div><div class="day weekend">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day weekend">31</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Junio 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day weekend">6</div><div class="day weekend">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day weekend">13</div><div class="day weekend">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day weekend">20</div><div class="day weekend">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day weekend">27</div><div class="day weekend">28</div><div class="day">29</div><div class="day">30</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Julio 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day weekend">3</div><div class="day weekend">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day weekend">10</div><div class="day weekend">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day weekend">17</div><div class="day weekend">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day weekend">24</div><div class="day weekend">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day weekend">31</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Agosto 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day weekend">2</div><div class="day weekend">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day weekend">9</div><div class="day weekend">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day weekend">16</div><div class="day weekend">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day weekend">23</div><div class="day weekend">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day weekend">30</div><div class="day weekend">31</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Septiembre 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day weekend">4</div><div class="day weekend">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day weekend">11</div><div class="day weekend">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day weekend">18</div><div class="day weekend">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day weekend">25</div><div class="day weekend">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Octubre 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day weekend">3</div><div class="day weekend">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day weekend">10</div><div class="day weekend">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day weekend">17</div><div class="day weekend">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day weekend">24</div><div class="day weekend">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day weekend">31</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Noviembre 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day weekend">2</div><div class="day weekend">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day weekend">9</div><div class="day weekend">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day weekend">16</div><div class="day weekend">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day weekend">23</div><div class="day weekend">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day weekend">30</div></div></div>
+
+    <div class="calendar"><div class="calendar-header">Diciembre 2026</div><div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="grid"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day weekend">3</div><div class="day weekend">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day weekend">10</div><div class="day weekend">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day weekend">17</div><div class="day weekend">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day weekend">24</div><div class="day weekend">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day weekend">31</div></div></div>
+</section>
+    
+<section id="recursos">
+    <h2>Material Bibliográfico</h2>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+       <input type="text" id="buscador" onkeyup="filtrarArchivos()" placeholder="🔍 Buscar material..." 
+style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
+    </div>
+    
+    <div class="lista-repo">
+        <div class="item-archivo"><div><strong>📕 VENTILACIÓN MINERA</strong></div><button onclick="verPDF('VENTILACIÓN MINERA.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📓 CARTERA DE PROYECTOS</strong></div><button onclick="verPDF('CARTERA DE PROYECTOS .pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📗 USO DE DRONES EN TOPOGRAFÍA MINERA</strong></div><button onclick="verPDF('USO DE DRONES EN TOPOGRAFÍA MINERA.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📘 SUBLEVEL STOPING VETAS ANGOSTAS</strong></div><button onclick="verPDF('SUBLEVEL STOPING VETAS ANGOSTAS.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📓 REMEDIACIÓN AMBIENTAL</strong></div><button onclick="verPDF('REMEDIACIÓN AMBIENTAL.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📔 AGUAS ÁCIDAS EN MINERÍA</strong></div><button onclick="verPDF('AGUAS ÁCIDAS EN MINERÍA.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📕 AREQUIPA TRADICIÓN MINERA</strong></div><button onclick="verPDF('AREQUIPA TRADICIÓN MINERA.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📕 Manual Práctico MinePlan N° 1</strong></div><button onclick="verPDF('Manual Práctico MinePlan N° 1 - Mallas de perforación.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📙 Algoritmo de Lerch & Grossman</strong></div><button onclick="verPDF('ALGORITMO DE LERCH & GROSSMAN.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📗 Uso de SIMSCHED y QPIT</strong></div><button onclick="verPDF('USO DE SIMSCHED Y QPIT PARA LA OPTIMIZACIÓN Y DISEÑO EN OPENPIT.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📘 Categorización de Recursos Minerales</strong></div><button onclick="verPDF('CATEGORIZACIÓN DE RECURSOS MINERALES.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📓 Mantenimiento Tipo Overhaul</strong></div><button onclick="verPDF('IMPLEMENTACIÓN DE MANTENIMIENTO TIPO OVERHAUL PARA AUMENTAR LA DISPONIBILIDAD EN EQUIPOS MINEROS.pdf')">Ver PDF</button></div>
+        <div class="item-archivo"><div><strong>📔 Componentes Geométricos Open Pit</strong></div><button onclick="verPDF('COMPONENTES GEOMÉTRICOS EN EL DISEÑO DE MINAS OPEN PIT.pdf')">Ver PDF</button></div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <div class="footer-logo"><img src="LOGO.png" alt="Logo GEIPLAMIN"></div>
+            <p><strong>GEIPLAMIN</strong></p>
+            <p>Grupo de Estudio e Investigación de Planeamiento Minero - UNMSM</p>
+        </div>
+        <div class="footer-section">
+            <h3>Networking</h3>
+            <a href="javascript:void(0)" onclick="mostrarSeccion('quienes-somos')">Nosotros</a>
+            <a href="javascript:void(0)" onclick="mostrarSeccion('grupos-inv')">Grupos de Investigación</a>
+            <a href="javascript:void(0)" onclick="mostrarSeccion('convocatoria')">Directiva / Convocatoria</a>
+            <a href="javascript:void(0)" onclick="mostrarSeccion('software')">Software Minero</a>
+        </div>
+        <div class="footer-section">
+            <h3>Contáctanos</h3>
+            <p>📧 geiplamin.unmsm.24@gmail.com</p>
+            <p>📍 Facultad de Ingeniería de Minas - UNMSM</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/GrupodeestudioeInvestigaciondePlaneamientoMinero" target="_blank"><svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z" /></svg></a>
+                <a href="https://www.linkedin.com/company/geiplamin-unmsm/" target="_blank"><svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5V13.2a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3V10.2H10.2v8.3h2.72v-4.4c0-1.04.88-1.9 1.9-1.9s1.9.86 1.9 1.9v4.4h2.72M6.25 10.2v8.3h2.73v-8.3H6.25M7.62 6a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7.62 6Z" /></svg></a>
+                <a href="https://www.instagram.com/geiplamin/" target="_blank"><svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z" /></svg></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 GEIPLAMIN - Todos los derechos reservados.</div>
+
+    <div id="pdfModal" class="modal-pdf">
+        <div class="modal-content-pdf">
+            <span class="close-modal" onclick="cerrarPDF()">&times; Cerrar Ventana</span>
+            <iframe id="pdfFrame" src=""></iframe>
+        </div>
+    </div>
+</footer>
+
+<script>
+// --- 1. NAVEGACIÓN ---
+function ocultarTodo() {
+    const secciones = ['inicio', 'software', 'eventos', 'recursos', 'quienes-somos', 'grupos-inv', 'convocatoria'];
+    secciones.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = 'none';
+    });
+}
+
+function mostrarSeccion(idSeccion) {
+    ocultarTodo();
+    const seccion = document.getElementById(idSeccion);
+    if(seccion) {
+        seccion.style.display = 'block';
+        window.scrollTo(0, 0); // Regresa al inicio de la página al cambiar de pestaña
+    }
+}
+
+function volverInicio() {
+    mostrarSeccion('inicio');
+}
+
+function mostrarMaterial() {
+    mostrarSeccion('recursos');
+}
+
+// --- 2. BUSCADOR DE ARCHIVOS ---
+function filtrarArchivos() {
+    const input = document.getElementById('buscador');
+    const filtro = input.value.toUpperCase();
+    const items = document.getElementsByClassName('item-archivo');
+
+    for (let i = 0; i < items.length; i++) {
+        const texto = items[i].innerText || items[i].textContent;
+        if (texto.toUpperCase().indexOf(filtro) > -1) {
+            items[i].style.display = "";
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+}
+
+// --- 3. MODO OSCURO (MODO MINERO) ---
+function toggleDarkMode() {
+    const body = document.body;
+    // Si el tema actual es oscuro, pásalo a claro, si no, a oscuro
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Esto hace que si el usuario refresca la página, se mantenga su preferencia
+window.onload = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+};
+
+// --- 4. MODAL PDF ---
+function verPDF(url) {
+    const modal = document.getElementById('pdfModal');
+    const iframe = document.getElementById('pdfFrame');
+    iframe.src = url;
+    modal.style.display = 'block';
+}
+
+function cerrarPDF() {
+    const modal = document.getElementById('pdfModal');
+    const iframe = document.getElementById('pdfFrame');
+    modal.style.display = 'none';
+    iframe.src = ''; // Limpia el recurso al cerrar
+}
+
+// --- 5. CARRUSEL AUTOMÁTICO ---
+let slideIndex = 0;
+function moverCarrusel() {
+    const track = document.getElementById('track');
+    if(track) {
+        slideIndex++;
+        if (slideIndex >= 4) slideIndex = 0; 
+        track.style.transform = `translateX(-${slideIndex * 25}%)`;
+    }
+}
+// Cambia la imagen cada 3.5 segundos
+setInterval(moverCarrusel, 3500);
+</script>
 </body>
 </html>
