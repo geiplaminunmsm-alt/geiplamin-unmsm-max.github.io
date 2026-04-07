@@ -537,9 +537,9 @@ iframe {
                 <strong>📂 Repositorio de Proyectos e Investigaciones</strong>
                 <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">Accede a nuestra carpeta compartida de Google Drive.</p>
             </div>
-           <button style="background: #2ecc71;" onclick="abrirDrive()">
-                Abrir Drive
-            </button>
+            <a href="https://drive.google.com/drive/folders/1CYGBnZrehxe5AeovOPb6-GS9XCehoefC?usp=drive_link" target="_blank">
+                <button style="background: #2ecc71;">Abrir Drive</button>
+            </a>
         </div>
     </div>
 </section>
@@ -682,21 +682,13 @@ style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border:
     </div>
     <div class="footer-bottom">© 2026 GEIPLAMIN - Todos los derechos reservados.</div>
 
-    <div id="driveModal" class="modal-pdf">
-    <div class="modal-content-pdf">
-        <span class="close-modal" onclick="cerrarDrive()">&times; Cerrar</span>
-        <iframe id="driveFrame" src=""></iframe>
+    <div id="pdfModal" class="modal-pdf">
+        <div class="modal-content-pdf">
+            <span class="close-modal" onclick="cerrarPDF()">&times; Cerrar Ventana</span>
+            <iframe id="pdfFrame" src=""></iframe>
+        </div>
     </div>
-</div>
 </footer>
-
-<!-- 👉 AQUÍ VA EL MODAL PDF -->
-<div id="pdfModal" class="modal-pdf">
-    <div class="modal-content-pdf">
-        <span class="close-modal" onclick="cerrarPDF()">&times; Cerrar</span>
-        <iframe id="pdfFrame"></iframe>
-    </div>
-</div>
 
 <script>
 // --- 1. NAVEGACIÓN ---
@@ -775,17 +767,6 @@ function cerrarPDF() {
     const iframe = document.getElementById('pdfFrame');
     modal.style.display = 'none';
     iframe.src = ''; // Limpia el recurso al cerrar
-}
-    // --- 4.1 MODAL DRIVE ---
-function abrirDrive() {
-    window.open("https://drive.google.com/drive/folders/1CYGBnZrehxe5AeovOPb6-GS9XCehoefC", "_blank");
-}
-
-function cerrarDrive() {
-    const modal = document.getElementById('driveModal');
-    const iframe = document.getElementById('driveFrame');
-    modal.style.display = 'none';
-    iframe.src = '';
 }
 
 // --- 5. CARRUSEL AUTOMÁTICO ---
