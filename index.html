@@ -125,7 +125,7 @@ button:hover {
     background: #e56700;
 }
 
-/* 5. Calendario */
+/* --- 5. Calendario (Versión Adaptativa) --- */
 .calendar {
     max-width: 900px;
     margin: 30px auto;
@@ -133,6 +133,7 @@ button:hover {
     border-radius: 10px;
     overflow: hidden;
     color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .calendar-header {
@@ -146,6 +147,7 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     background: #ff7a00;
+    color: #000; /* Texto negro sobre fondo naranja */
 }
 
 .days div {
@@ -157,18 +159,45 @@ button:hover {
 .grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    background: var(--bg-principal);
 }
 
 .day {
     min-height: 80px;
-    border: 1px solid #555;
+    border: 1px solid rgba(128, 128, 128, 0.2);
     padding: 5px;
-    background: var(--bg-tarjetas); /* Usará el gris oscuro en modo dark */
-    color: var(--texto-principal); /* Usará el blanco/gris claro en modo dark */
+    background: var(--bg-tarjetas);
+    color: var(--texto-principal); /* Cambia automático: negro en light, blanco en dark */
 }
 
+/* --- Ajuste de Fines de Semana --- */
 .weekend {
-    background: #f5cba7;
+    background: #fdf2e9; /* Un naranja muy pálido para modo claro */
+    color: #000;
+}
+
+/* --- 🔥 COMPATIBILIDAD CON MODO OSCURO (Añadir esto) 🔥 --- */
+[data-theme="dark"] .calendar {
+    border: 1px solid var(--acento-naranja);
+}
+
+[data-theme="dark"] .days {
+    background: #1a1a1a; /* Fondo oscuro para los encabezados L, M, X... */
+    color: var(--acento-naranja); /* Texto naranja brillante */
+}
+
+[data-theme="dark"] .weekend {
+    background: #151515; /* Gris casi negro para fines de semana en modo dark */
+    color: #fff;
+}
+
+[data-theme="dark"] .day {
+    border: 1px solid #333;
+}
+
+/* Estilo para que las etiquetas de eventos no se pierdan */
+.day span {
+    filter: brightness(1.1); /* Realza un poco los colores de los eventos en modo oscuro */
 }
 
 /* 6. Repositorio de Archivos */
