@@ -170,6 +170,12 @@ button:hover {
     color: var(--texto-principal); /* Cambia automático: negro en light, blanco en dark */
 }
 
+.hoy {
+    border: 2px solid #ff7a00;
+    box-shadow: 0 0 10px #ff7a00;
+    font-weight: bold;
+}
+
 /* --- Ajuste de Fines de Semana --- */
 .weekend {
     background: #fdf2e9; /* Un naranja muy pálido para modo claro */
@@ -858,7 +864,33 @@ function generarCalendario() {
         grid.innerHTML += `<div class="day"></div>`;
     }
 
-    for (let dia = 1; dia <= diasMes; dia++) {
+    .day 
+
+    let fecha = `${añoActual}-${mesActual+1}-${dia}`;
+    let evento = eventos[fecha] || "";
+
+    let fechaObj = new Date(añoActual, mesActual, dia);
+    let diaSemana = fechaObj.getDay(); // 0=Domingo, 6=Sábado
+
+    let claseExtra = (diaSemana === 0 || diaSemana === 6) ? "weekend" : "";
+
+    // 🔥 NUEVO: detectar día actual
+    let hoy = new Date();
+    let esHoy = (
+        dia === hoy.getDate() &&
+        mesActual === hoy.getMonth() &&
+        añoActual === hoy.getFullYear()
+    );
+
+    let claseHoy = esHoy ? "hoy" : "";
+
+    grid.innerHTML += `
+        <div class="day ${claseExtra} ${claseHoy}">
+            <strong>${dia}</strong>
+            <div style="font-size:10px;">${evento}</div>
+        </div>
+    `;
+}
         let fecha = `${añoActual}-${mesActual+1}-${dia}`;
         let evento = eventos[fecha] || "";
 
