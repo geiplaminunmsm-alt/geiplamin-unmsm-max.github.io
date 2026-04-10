@@ -502,14 +502,13 @@ iframe {
         </p>
     </div>
 <div class="carousel-container">
-        <div class="carousel-track" id="track">
-            <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
-            <div class="carousel-slide"><img src="NOSOTROS1.png" alt="Equipo 2"></div>
-            <div class="carousel-slide"><img src="NOSOTROS2.png" alt="Equipo 3"></div>
-            <div class="carousel-slide"><img src="NOSOTROS.png" alt="Equipo 1"></div>
-        </div>
+    <div class="carousel-track" id="track">
+        <div class="carousel-slide"><img src="NOSOTROS.png" alt="1"></div>
+        <div class="carousel-slide"><img src="NOSOTROS1.png" alt="2"></div>
+        <div class="carousel-slide"><img src="NOSOTROS2.png" alt="3"></div>
+        <div class="carousel-slide"><img src="NOSOTROS.png" alt="1-clon"></div>
     </div>
-
+</div>
     <div class="lista-repo" style="background: none; box-shadow: none; margin-top: 30px;">
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; text-align: center;">
             
@@ -761,23 +760,28 @@ function toggleDarkMode() {
     }
 }
 
-// --- 4. CARRUSEL INFINITO ---
-let slideIndex = 0;
-function moverCarrusel() {
-    const track = document.getElementById('track');
-    if(!track) return;
+// --- 4. CARRUSEL INFINITO (Lógica corregida) ---
+let currentSlide = 0;
+const track = document.getElementById('track');
 
-    slideIndex++;
+function ejecutarCarrusel() {
+    if (!track) return;
+
+    currentSlide++;
+
+    // Mueve hacia la derecha con animación
     track.style.transition = "transform 1s ease-in-out";
-    track.style.transform = `translateX(-${slideIndex * 25}%)`;
+    track.style.transform = `translateX(-${currentSlide * 25}%)`;
 
-    track.addEventListener('transitionend', function reset() {
-        if (slideIndex >= 3) { // Salto invisible al llegar al clon
-            track.style.transition = "none";
-            slideIndex = 0;
-            track.style.transform = `translateX(0%)`;
+    // Escucha cuando termina la animación para el salto invisible
+    track.addEventListener('transitionend', function alTerminar() {
+        // Si llegamos a la 4ta imagen (el clon de la primera)
+        if (currentSlide === 3) { 
+            track.style.transition = "none"; // Desactiva animación
+            currentSlide = 0; // Regresa al índice inicial
+            track.style.transform = `translateX(0%)`; // Salto instantáneo
         }
-        track.removeEventListener('transitionend', reset);
+        track.removeEventListener('transitionend', alTerminar);
     });
 }
 
@@ -788,9 +792,8 @@ window.onload = () => {
     if (savedTheme === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
     }
-    // Iniciar carrusel
-    setInterval(moverCarrusel, 3500);
+    
+    // Iniciar carrusel una sola vez aquí
+    setInterval(ejecutarCarrusel, 3500);
 };
 </script>
-</body>
-</html>
