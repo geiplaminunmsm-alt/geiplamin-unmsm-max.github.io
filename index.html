@@ -860,70 +860,40 @@ function generarCalendario() {
 
     let offset = (primerDia === 0) ? 6 : primerDia - 1;
 
+    // Espacios vacíos
     for (let i = 0; i < offset; i++) {
         grid.innerHTML += `<div class="day"></div>`;
     }
 
-    .day 
+    // 🔥 GENERAR DÍAS
+    for (let dia = 1; dia <= diasMes; dia++) {
 
-    let fecha = `${añoActual}-${mesActual+1}-${dia}`;
-    let evento = eventos[fecha] || "";
-
-    let fechaObj = new Date(añoActual, mesActual, dia);
-    let diaSemana = fechaObj.getDay(); // 0=Domingo, 6=Sábado
-
-    let claseExtra = (diaSemana === 0 || diaSemana === 6) ? "weekend" : "";
-
-    // 🔥 NUEVO: detectar día actual
-    let hoy = new Date();
-    let esHoy = (
-        dia === hoy.getDate() &&
-        mesActual === hoy.getMonth() &&
-        añoActual === hoy.getFullYear()
-    );
-
-    let claseHoy = esHoy ? "hoy" : "";
-
-    grid.innerHTML += `
-        <div class="day ${claseExtra} ${claseHoy}">
-            <strong>${dia}</strong>
-            <div style="font-size:10px;">${evento}</div>
-        </div>
-    `;
-}
         let fecha = `${añoActual}-${mesActual+1}-${dia}`;
         let evento = eventos[fecha] || "";
 
         let fechaObj = new Date(añoActual, mesActual, dia);
-let diaSemana = fechaObj.getDay(); // 0 = domingo, 6 = sábado
+        let diaSemana = fechaObj.getDay();
 
-let claseExtra = (diaSemana === 0 || diaSemana === 6) ? "weekend" : "";
+        let claseExtra = (diaSemana === 0 || diaSemana === 6) ? "weekend" : "";
 
-grid.innerHTML += `
-    <div class="day ${claseExtra}">
-        <strong>${dia}</strong>
-        <div style="font-size:10px;">${evento}</div>
-    </div>
-`;
+        // 🔥 DETECTAR HOY
+        let hoy = new Date();
+        let esHoy = (
+            dia === hoy.getDate() &&
+            mesActual === hoy.getMonth() &&
+            añoActual === hoy.getFullYear()
+        );
+
+        let claseHoy = esHoy ? "hoy" : "";
+
+        grid.innerHTML += `
+            <div class="day ${claseExtra} ${claseHoy}">
+                <strong>${dia}</strong>
+                <div style="font-size:10px;">${evento}</div>
+            </div>
+        `;
     }
 }
-
-function cambiarMes(direccion) {
-    mesActual += direccion;
-
-    if (mesActual > 11) {
-        mesActual = 0;
-        añoActual++;
-    }
-
-    if (mesActual < 0) {
-        mesActual = 11;
-        añoActual--;
-    }
-
-    generarCalendario();
-}
-
 
 </script>
 </body>
