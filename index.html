@@ -546,8 +546,18 @@ iframe {
 
 <section id="convocatoria" style="display:none;">
     <h2>📢 Convocatoria GEIPLAMIN 2026</h2>
-    <div class="lista-repo" style="text-align: center; padding: 50px;">
-        <p style="color: #888; font-style: italic;">Próximamente publicaremos las bases aquí. ⚒️</p>
+    
+    <div id="countdown-box" style="background: var(--bg-tarjetas); border: 2px solid var(--acento-naranja); padding: 20px; border-radius: 15px; max-width: 400px; margin: 0 auto 30px auto; box-shadow: 0 4px 15px var(--sombra);">
+        <p style="margin: 0; font-weight: bold; font-size: 18px;">⏳ Tiempo restante:</p>
+        <div id="contador-texto" style="font-size: 24px; color: var(--acento-naranja); font-weight: bold; margin-top: 10px;">
+            Calculando...
+        </div>
+        <p style="font-size: 12px; margin-top: 5px; color: #888;">Cierre: 20 de Abril, 2026</p>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px;">
+        <img src="COVOCATORIA.png" alt="Convocatoria Parte 1" style="width: 100%; max-width: 450px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #444;">
+        <img src="CONVOCATORIA2.png" alt="Convocatoria Parte 2" style="width: 100%; max-width: 450px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 1px solid #444;">
     </div>
 </section>
 
@@ -738,38 +748,64 @@ const track = document.getElementById('track');
 
 function ejecutarCarrusel() {
     if (!track) return;
-
     currentSlide++;
-
-    // Mueve hacia la derecha con animación
     track.style.transition = "transform 1s ease-in-out";
     track.style.transform = `translateX(-${currentSlide * 25}%)`;
 
-    // Escucha cuando termina la animación para el salto invisible
     track.addEventListener('transitionend', function alTerminar() {
-        // Si llegamos a la 4ta imagen (el clon de la primera)
         if (currentSlide === 3) { 
-            track.style.transition = "none"; // Desactiva animación
-            currentSlide = 0; // Regresa al índice inicial
-            track.style.transform = `translateX(0%)`; // Salto instantáneo
+            track.style.transition = "none";
+            currentSlide = 0;
+            track.style.transform = `translateX(0%)`;
         }
         track.removeEventListener('transitionend', alTerminar);
     });
 }
 
-// --- 5. INICIALIZACIÓN ---
+// --- NUEVA FUNCIÓN: LÓGICA DEL CONTADOR ---
+function actualizarContador() {
+    // Fecha objetivo: 20 de abril de 2026
+    const fechaCierre = new Date("April 20, 2026 23:59:59").getTime();
+    const ahora = new Date().getTime();
+    const diferencia = fechaCierre - ahora;
+
+    const display = document.getElementById("contador-texto");
+    if (!display) return;
+
+    if (diferencia < 0) {
+        display.innerHTML = "¡CONVOCATORIA CERRADA!";
+        display.style.color = "#ff4444";
+    } else {
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        if (dias > 0) {
+            display.innerHTML = `Faltan ${dias} días y ${horas} horas`;
+        } else {
+            display.innerHTML = `¡ÚLTIMAS ${horas} HORAS!`;
+        }
+    }
+}
+
+// --- 5. INICIALIZACIÓN (Actualizada) ---
 window.onload = () => {
     const savedTheme = localStorage.getItem('theme');
     const btn = document.getElementById('theme-btn');
     
+    // Aplicar tema guardado (Usamos documentElement para que funcione con tu CSS)
     if (savedTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        if(btn) btn.innerHTML = "🌙"; // Si estaba en oscuro, pone la luna
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if(btn) btn.innerHTML = "🌙";
     }
     
-    // Iniciar el carrusel una sola vez
+    // Iniciar el contador inmediatamente y actualizar cada minuto
+    actualizarContador();
+    setInterval(actualizarContador, 60000);
+
+    // Iniciar el carrusel
     setInterval(ejecutarCarrusel, 3500);
 };
+
 </script>
 </body>
 </html>
