@@ -625,56 +625,42 @@ iframe {
 
 <section id="eventos" style="display:none;">
     <div class="calendar">
-    <div class="calendar-header">Abril 2026</div>
-    <div class="days"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div>
-    <div class="grid">
-        <div class="day"></div><div class="day"></div>
-        <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day weekend">4</div>
-        
-        <div class="day weekend" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(52, 152, 219, 0.15);">
-            <span style="position: absolute; top: 2px; right: 2px; font-size: 12px;">📢</span>
-            5
-            <span style="font-size: 9px; color: #2980b9; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.1;">
-                PUBLICACIÓN<br>CONVOCATORIA
-            </span>
-        </div>
 
-        <div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div>
-
-        <div class="day" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 122, 0, 0.2); border: 2px solid var(--acento-naranja);">
-            <span style="position: absolute; top: 2px; right: 2px; font-size: 12px;">🚀</span>
-            10
-            <span style="font-size: 9px; color: var(--acento-naranja); margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.1;">
-                INICIO DE<br>INSCRIPCIÓN
-            </span>
-        </div>
-
-        <div class="day weekend">11</div><div class="day weekend">12</div>
-
-        <div class="day" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(46, 204, 113, 0.2);">
-            <span style="position: absolute; top: 2px; right: 2px; font-size: 12px;">🎙️</span>
-            13
-            <span style="font-size: 9px; color: #27ae60; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.1;">
-                CHARLA:<br>ING. PALACIOS
-            </span>
-        </div>
-
-        <div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div>
-        <div class="day weekend">18</div><div class="day weekend">19</div>
-
-        <div class="day" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(183, 28, 28, 0.15);">
-            <span style="position: absolute; top: 2px; right: 2px; font-size: 12px;">🚫</span>
-            20
-            <span style="font-size: 9px; color: #b71c1c; margin-top: 5px; font-weight: bold; text-align: center; line-height: 1.1;">
-                CIERRE DE<br>CONVOCATORIA
-            </span>
-        </div>
-
-        <div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div>
-        <div class="day weekend">25</div><div class="day weekend">26</div>
-        <div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div>
+    <div class="calendar-header">
+        <button onclick="cambiarMes(-1)">⬅</button>
+        <span id="mes-titulo">Abril 2026</span>
+        <button onclick="cambiarMes(1)">➡</button>
     </div>
+
+    <div class="days">
+        <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+    </div>
+
+    <div class="grid" id="calendar-grid">
+        <!-- JS llena esto -->
+    </div>
+
 </div>
+    <section id="eventos" style="display:none;">
+    <div class="calendar">
+
+        <div class="calendar-header">
+            <button onclick="cambiarMes(-1)">⬅</button>
+            <span id="mes-titulo">Abril 2026</span>
+            <button onclick="cambiarMes(1)">➡</button>
+        </div>
+
+        <div class="days">
+            <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+        </div>
+
+        <div class="grid" id="calendar-grid">
+            <!-- JS llena esto -->
+        </div>
+
+    </div>
+</section>
+
 </section> <!-- CIERRA EVENTOS -->
 
 <section id="recursos">
@@ -844,23 +830,84 @@ function actualizarContador() {
 }
 
 // --- 5. INICIALIZACIÓN (Actualizada) ---
+
 window.onload = () => {
+    // 🌙 Tema guardado
     const savedTheme = localStorage.getItem('theme');
     const btn = document.getElementById('theme-btn');
     
-    // Aplicar tema guardado (Usamos documentElement para que funcione con tu CSS)
     if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        document.body.setAttribute('data-theme', 'dark');
         if(btn) btn.innerHTML = "🌙";
     }
-    
-    // Iniciar el contador inmediatamente y actualizar cada minuto
+
+    // ⏳ Contador
     actualizarContador();
     setInterval(actualizarContador, 60000);
 
-    // Iniciar el carrusel
+    // 🎞️ Carrusel
     setInterval(ejecutarCarrusel, 3500);
+
+    // 📅 Calendario
+    generarCalendario();
 };
+let mesActual = 3; // Abril = 3 (enero=0)
+let añoActual = 2026;
+
+const eventos = {
+    "2026-4-5": "📌 PUBLICACIÓN DIRECTIVA",
+    "2026-4-10": "🚀 CONVOCATORIA",
+    "2026-4-13": "🎙️ TALLER ING. JOSÉ PALACIOS",
+    "2026-4-20": "🚫 CIERRE CONVOCATORIA"
+};
+
+function generarCalendario() {
+    const grid = document.getElementById("calendar-grid");
+    const titulo = document.getElementById("mes-titulo");
+
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+    titulo.innerText = meses[mesActual] + " " + añoActual;
+
+    grid.innerHTML = "";
+
+    const primerDia = new Date(añoActual, mesActual, 1).getDay();
+    const diasMes = new Date(añoActual, mesActual + 1, 0).getDate();
+
+    let offset = (primerDia === 0) ? 6 : primerDia - 1;
+
+    for (let i = 0; i < offset; i++) {
+        grid.innerHTML += `<div class="day"></div>`;
+    }
+
+    for (let dia = 1; dia <= diasMes; dia++) {
+        let fecha = `${añoActual}-${mesActual+1}-${dia}`;
+        let evento = eventos[fecha] || "";
+
+        grid.innerHTML += `
+            <div class="day">
+                <strong>${dia}</strong>
+                <div style="font-size:10px;">${evento}</div>
+            </div>
+        `;
+    }
+}
+
+function cambiarMes(direccion) {
+    mesActual += direccion;
+
+    if (mesActual > 11) {
+        mesActual = 0;
+        añoActual++;
+    }
+
+    if (mesActual < 0) {
+        mesActual = 11;
+        añoActual--;
+    }
+
+    generarCalendario();
+}
 
 </script>
 </body>
