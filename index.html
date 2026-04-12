@@ -262,11 +262,11 @@ button:hover {
     border-bottom: 1px solid rgba(128, 128, 128, 0.2); 
 }
 
-/* --- 7. FOOTER REDISEÑADO (PROFESIONAL) --- */
+/* --- 7. FOOTER REDISEÑADO (LIMPIO Y PROFESIONAL) --- */
 .footer-container {
     background-color: #000000;
     color: white;
-    padding: 60px 0 0 0; /* Espacio superior */
+    padding: 60px 0 0 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -284,37 +284,33 @@ button:hover {
     padding: 0 20px 40px 20px;
 }
 
-/* Columna del Logo y Nombre */
+/* Columna de Identidad: Logo + Descripción */
 .footer-brand {
     flex: 1.5;
     min-width: 280px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    /* Alinea el texto pegado al logo hacia la izquierda */
+    align-items: flex-start; 
+    gap: 15px; /* Espacio controlado entre logo y texto */
     margin-bottom: 30px;
 }
 
 .footer-logo img {
-    max-width: 220px; /* Logo más grande como pediste */
+    max-width: 250px; /* Logo más grande como pediste */
     height: auto;
     display: block;
     margin-bottom: 5px;
 }
 
-.footer-brand h2 {
-    color: #ff7a00;
-    font-size: 24px;
-    margin: 0;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
+/* Eliminamos el h2 naranja y ajustamos el párrafo */
 .footer-brand p {
-    color: #bbb;
-    font-size: 14px;
+    color: #cccccc;
+    font-size: 15px;
     line-height: 1.6;
-    max-width: 320px;
+    max-width: 300px;
     margin: 0;
+    text-align: left; /* Asegura alineación a la izquierda */
 }
 
 /* Columnas de Enlaces y Contacto */
@@ -348,7 +344,7 @@ button:hover {
     color: #ff7a00 !important;
 }
 
-/* Redes Sociales corregidas */
+/* Redes Sociales */
 .social-icons {
     display: flex;
     gap: 15px;
@@ -356,8 +352,8 @@ button:hover {
 }
 
 .social-icons svg {
-    width: 30px !important;
-    height: 30px !important;
+    width: 32px !important;
+    height: 32px !important;
     fill: #ff7a00;
     transition: all 0.3s ease;
 }
@@ -376,7 +372,7 @@ button:hover {
     font-size: 12px;
     border-top: 1px solid #222;
 }
-
+    
 /* --- 9. CARRUSEL Y CUADROS NOSOTROS (LIMPIOS) --- */
 .carousel-container {
     max-width: 800px; 
