@@ -596,7 +596,7 @@ iframe {
     <a href="javascript:void(0)" onclick="mostrarMaterial()">Material</a>
     <a href="javascript:void(0)" onclick="mostrarSeccion('grupos-inv')">Grupos</a>
     <a href="javascript:void(0)" onclick="mostrarSeccion('convocatoria')">Convocatoria</a>
-    <a href="javascript:void(0)" onclick="mostrarSeccion('software')">Software</a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('software')">WikiMin</a>
     <a href="javascript:void(0)" onclick="mostrarSeccion('eventos')">Eventos</a>
 </nav>
 
@@ -692,44 +692,23 @@ iframe {
 </section>
 
 <section id="software" style="display:none;">
-    <h2>📖 Wiki de Planeamiento Minero</h2>
-    <p style="max-width: 700px; margin: 0 auto 30px auto;">
-        Conceptos técnicos fundamentales para el diseño, optimización y agendamiento de operaciones mineras.
+    <h2 style="color: var(--acento-naranja);">📙 WikiMin</h2>
+    <p style="max-width: 700px; margin: 0 auto 30px auto; font-style: italic;">
+        Tu enciclopedia rápida de Planeamiento Minero. Conceptos técnicos precisos a un clic.
     </p>
 
     <div style="text-align: center; margin-bottom: 30px;">
-        <input type="text" id="buscador-wiki-exclusivo" onkeyup="ejecutarFiltroWiki()" placeholder="🔍 Buscar término técnico..." 
+        <input type="text" id="buscador-wiki-exclusivo" onkeyup="ejecutarFiltroWiki()" placeholder="🔍 Explorar WikiMin..." 
         style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
     </div>
 
     <div id="contenedor-wiki-real">
         <div class="card card-wiki-geiplamin">
             <h3 style="color: var(--acento-naranja);">Ley de Corte (Cut-off Grade)</h3>
-            <p>Es la ley mínima requerida para que un bloque sea económicamente viable para ser procesado. Define la frontera entre el mineral y el desmonte.</p>
+            <p>Es la ley mínima requerida para que un bloque sea económicamente viable para ser procesado.</p>
         </div>
-
-        <div class="card card-wiki-geiplamin">
-            <h3 style="color: var(--acento-naranja);">Pit Final (Ultimate Pit)</h3>
-            <p>Contorno geométrico máximo de explotación que reporta el mayor beneficio económico. Se obtiene mediante algoritmos como Lerch-Grossman.</p>
         </div>
-
-        <div class="card card-wiki-geiplamin">
-            <h3 style="color: var(--acento-naranja);">Stripping Ratio (E/M)</h3>
-            <p>Relación desmonte/mineral. Indica la cantidad de material estéril que se debe remover por cada tonelada de mineral extraído.</p>
-        </div>
-
-        <div class="card card-wiki-geiplamin">
-            <h3 style="color: var(--acento-naranja);">Reservas Minerales</h3>
-            <p>Parte del Recurso Mineral que es económicamente extraíble tras aplicar factores modificadores (estudios de factibilidad).</p>
-        </div>
-        
-        <div class="card card-wiki-geiplamin">
-            <h3 style="color: var(--acento-naranja);">LOM (Life of Mine)</h3>
-            <p>Vida útil de la mina. Representa el tiempo total proyectado de explotación desde el inicio hasta el agotamiento de las reservas.</p>
-        </div>
-    </div>
 </section>
-
 
 <section id="eventos" style="display:none;">
     <p style="max-width: 600px; margin: 0 auto 30px auto; line-height: 1.6; color: var(--texto-principal);">
