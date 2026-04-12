@@ -46,32 +46,20 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent; /* 👈 sin fondo */
+    background: none; /* más limpio */
     height: auto;
-    padding: 20px 0;
+    padding: 0; /* 👈 quitamos espacio extra */
 }
 
 header::before {
     content: "";
     display: block;
     width: 100%;
-    height: 300px;
+    height: 300px; /* ajusta según tu imagen */
     background-image: url('GEIPLAMIN.png');
-    background-size: contain; /* 👈 NO recorta */
+    background-size: contain; 
     background-position: center;
     background-repeat: no-repeat;
-}
-    
-header h1, header p {
-    display: none;
-}
-
-.titulo-centrado {
-    text-align: center;
-    color: #ff7a00;
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 30px;
 }
     
 /* 3. Navegación */
