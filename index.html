@@ -692,27 +692,65 @@ iframe {
 </section>
 
 <section id="software" style="display:none;">
-    <h2 style="color: var(--acento-naranja);">📙 WikiMin Inteligente</h2>
-    <p>Busca términos en nuestra base local o explora fuentes globales de minería.</p>
+    <h2 style="color: var(--acento-naranja);">📙 WikiMin: Buscador Inteligente</h2>
+    <p style="max-width: 700px; margin: 0 auto 30px auto;">
+        Explora la base de datos global de GEIPLAMIN: Tesis UNMSM, manuales SME, reportes INGEMMET y más.
+    </p>
 
-    <div style="text-align: center; margin-bottom: 30px;">
-        <input type="text" id="buscador-wiki-exclusivo" onkeyup="ejecutarFiltroWiki()" placeholder="🔍 Ej: Lerch-Grossman, VAN, Capex..." 
-        style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
+    <div class="contenedor-wiki-google">
+        <script async src="https://cse.google.com/cse.js?cx=c490b3bfeadb74409"></script>
+        <div class="gcse-search"></div>
     </div>
 
-    <div id="wiki-no-results" style="display:none; margin-top: 20px;">
-        <p>No encontramos ese término en la base local...</p>
-        <button id="btn-google-scholar" style="background: #4285F4;">🔍 Buscar en Google Académico</button>
-    </div>
+    <style>
+        .contenedor-wiki-google {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-tarjetas);
+            border-radius: 15px;
+            min-height: 200px;
+        }
 
-    <div id="contenedor-wiki-real">
-        <div class="card card-wiki-geiplamin">
-            <h3 style="color: var(--acento-naranja);">Ley de Corte</h3>
-            <p>Mínimo grado de pureza para ser económico.</p>
-        </div>
-        </div>
+        /* Cambiar el color del borde y el botón de Google */
+        .gsc-control-cse {
+            background-color: transparent !important;
+            border: none !important;
+            font-family: Arial, sans-serif !important;
+        }
+        
+        .gsc-input-box {
+            border: 2px solid var(--acento-naranja) !important;
+            border-radius: 20px !important;
+            background: var(--bg-principal) !important;
+        }
+
+        .gsc-search-button-v2 {
+            background-color: var(--acento-naranja) !important;
+            border-radius: 20px !important;
+            padding: 10px 15px !important;
+        }
+
+        /* Estilo de los resultados para que no brillen mucho en modo oscuro */
+        .gs-title, .gs-title b {
+            color: var(--acento-naranja) !important;
+            text-decoration: none !important;
+        }
+
+        .gs-snippet {
+            color: var(--texto-principal) !important;
+        }
+
+        .gsc-webResult {
+            border-bottom: 1px solid rgba(128,128,128,0.2) !important;
+            padding: 10px 0 !important;
+        }
+        
+        /* Quitar el logo de Google si estorba el diseño (opcional) */
+        .gcsc-branding { display: none !important; }
+    </style>
 </section>
-
+    
 <section id="eventos" style="display:none;">
     <p style="max-width: 600px; margin: 0 auto 30px auto; line-height: 1.6; color: var(--texto-principal);">
         En esta sección te mantendrás informado de todas nuestras actividades para que no te pierdas ninguna. 
