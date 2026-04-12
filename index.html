@@ -262,59 +262,108 @@ button:hover {
     border-bottom: 1px solid rgba(128, 128, 128, 0.2); 
 }
 
-/* --- NUEVO ESTILO PARA EL CONTADOR (PREMIUM) --- */
-.contador-container {
-    background: var(--bg-tarjetas);
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 500px;
-    margin: 40px auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(128, 128, 128, 0.2);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+// --- 1. CONFIGURACIÓN INICIAL ---
+let mesActual = 3; // Abril (0=Enero)
+let añoActual = 2026;
+
+const eventos = {
+    "2026-4-5": "📌 PUBLICACIÓN DIRECTIVA",
+    "2026-4-10": "🚀 CONVOCATORIA",
+    "2026-4-13": "🎙️ TALLER ING. JOSÉ PALACIOS",
+    "2026-4-20": "🚫 CIERRE CONVOCATORIA"
+};
+
+// --- 2. LÓGICA DEL CONTADOR ---
+function actualizarContador() {
+    const fechaCierre = new Date("April 20, 2026 23:59:59").getTime();
+    const ahora = new Date().getTime();
+    const diferencia = fechaCierre - ahora;
+    const display = document.getElementById("contador-texto");
+
+    if (!display) return;
+
+    if (diferencia < 0) {
+        display.innerHTML = "¡CONVOCATORIA CERRADA!";
+    } else {
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+
+        // Inyectamos spans para que tu CSS pinte los números de naranja
+        display.innerHTML = `<span>${dias}</span>d <span>${horas}</span>h <span>${minutos}</span>m`;
+    }
 }
 
-/* Línea decorativa superior */
-.contador-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--acento-naranja);
+// --- 3. LÓGICA DEL CALENDARIO ---
+function generarCalendario() {
+    const grid = document.getElementById("calendar-grid");
+    const titulo = document.getElementById("mes-titulo");
+    if (!grid || !titulo) return;
+
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    titulo.innerText = meses[mesActual] + " " + añoActual;
+    grid.innerHTML = "";
+
+    const primerDia = new Date(añoActual, mesActual, 1).getDay();
+    const diasMes = new Date(añoActual, mesActual + 1, 0).getDate();
+    let offset = (primerDia === 0) ? 6 : primerDia - 1;
+
+    for (let i = 0; i < offset; i++) grid.innerHTML += `<div class="day empty"></div>`;
+
+    for (let dia = 1; dia <= diasMes; dia++) {
+        let fecha = `${añoActual}-${mesActual+1}-${dia}`;
+        let evento = eventos[fecha] || "";
+        let hoy = new Date();
+        let esHoy = (dia === hoy.getDate() && mesActual === hoy.getMonth() && añoActual === hoy.getFullYear()) ? "hoy" : "";
+        let claseEvento = evento ? "evento" : "";
+
+        grid.innerHTML += `
+            <div class="day ${esHoy} ${claseEvento}">
+                <strong>${dia}</strong>
+                ${evento ? `<span class="evento-texto">${evento}</span>` : ""}
+            </div>
+        `;
+    }
 }
 
-.contador-titulo {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #888;
-    margin-bottom: 15px;
-    font-weight: 600;
+function cambiarMes(dir) {
+    mesActual += dir;
+    if (mesActual < 0) { mesActual = 11; añoActual--; }
+    else if (mesActual > 11) { mesActual = 0; añoActual++; }
+    generarCalendario();
 }
 
-.tiempo-restante {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--texto-principal);
-    margin: 10px 0;
+// --- 4. FUNCIÓN MODO OSCURO (Botón Flotante) ---
+function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('theme-btn');
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        if(btn) btn.innerHTML = "☀️";
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        if(btn) btn.innerHTML = "🌙";
+    }
 }
 
-/* Resaltado de los números */
-.tiempo-restante span {
-    color: var(--acento-naranja);
-    font-size: 34px;
-}
+// --- 5. INICIALIZACIÓN AL CARGAR ---
+window.onload = () => {
+    // Restaurar tema guardado
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        if(document.getElementById('theme-btn')) document.getElementById('theme-btn').innerHTML = "🌙";
+    }
 
-.fecha-cierre-txt {
-    font-size: 12px;
-    color: #666;
-    margin-top: 15px;
-    font-style: italic;
-}
+    actualizarContador();
+    setInterval(actualizarContador, 60000);
+    generarCalendario();
+    
+    // Si tienes función de carrusel, actívala aquí:
+    // setInterval(ejecutarCarrusel, 3500); 
+};
+
     
 /* --- 7. FOOTER REDISEÑADO (ESTILO OSCURO & PREMIUM) --- */
 .footer-container {
@@ -942,32 +991,9 @@ function actualizarContador() {
         }
     }
 }
-
 // --- 5. INICIALIZACIÓN (Actualizada) ---
-
-window.onload = () => {
-    // 🌙 Tema guardado
-    const savedTheme = localStorage.getItem('theme');
-    const btn = document.getElementById('theme-btn');
-    
-    if (savedTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        if(btn) btn.innerHTML = "🌙";
-    }
-
-    // ⏳ Contador
-    actualizarContador();
-    setInterval(actualizarContador, 60000);
-
-    // 🎞️ Carrusel
-    setInterval(ejecutarCarrusel, 3500);
-
-    // 📅 Calendario
-    generarCalendario();
-};
-let mesActual = 3; // Abril = 3 (enero=0)
+let mesActual = 3; // Abril
 let añoActual = 2026;
-
 const eventos = {
     "2026-4-5": "📌 PUBLICACIÓN DIRECTIVA",
     "2026-4-10": "🚀 CONVOCATORIA",
@@ -975,6 +1001,26 @@ const eventos = {
     "2026-4-20": "🚫 CIERRE CONVOCATORIA"
 };
 
+// --- FUNCIÓN DEL CONTADOR ---
+function actualizarContador() {
+    const fechaCierre = new Date("April 20, 2026 23:59:59").getTime();
+    const ahora = new Date().getTime();
+    const diferencia = fechaCierre - ahora;
+    const display = document.getElementById("contador-texto");
+
+    if (!display) return;
+
+    if (diferencia < 0) {
+        display.innerHTML = "¡CONVOCATORIA CERRADA!";
+        display.style.color = "#ff4444";
+    } else {
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        display.innerHTML = (dias > 0) ? `Faltan ${dias} días y ${horas} horas` : `¡ÚLTIMAS ${horas} HORAS!`;
+    }
+}
+
+// --- FUNCIÓN DEL CALENDARIO ---
 function generarCalendario() {
     const grid = document.getElementById("calendar-grid");
     const titulo = document.getElementById("mes-titulo");
@@ -982,60 +1028,47 @@ function generarCalendario() {
 
     const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
     titulo.innerText = meses[mesActual] + " " + añoActual;
-
     grid.innerHTML = "";
 
     const primerDia = new Date(añoActual, mesActual, 1).getDay();
     const diasMes = new Date(añoActual, mesActual + 1, 0).getDate();
-
-    // Ajuste para que el lunes sea el primer día (0=Dom, 1=Lun...)
     let offset = (primerDia === 0) ? 6 : primerDia - 1;
 
-    // Espacios vacíos al inicio del mes
-    for (let i = 0; i < offset; i++) {
-        grid.innerHTML += `<div class="day empty"></div>`;
-    }
+    for (let i = 0; i < offset; i++) grid.innerHTML += `<div class="day empty"></div>`;
 
-    // Generar los días
     for (let dia = 1; dia <= diasMes; dia++) {
         let fecha = `${añoActual}-${mesActual+1}-${dia}`;
         let evento = eventos[fecha] || "";
-        let tieneEvento = evento !== "";
-        let claseEvento = tieneEvento ? "evento" : "";
-
-        let fechaObj = new Date(añoActual, mesActual, dia);
-        let diaSemana = fechaObj.getDay();
-        let claseExtra = (diaSemana === 0 || diaSemana === 6) ? "weekend" : "";
-
         let hoy = new Date();
-        let esHoy = (dia === hoy.getDate() && mesActual === hoy.getMonth() && añoActual === hoy.getFullYear());
-        let claseHoy = esHoy ? "hoy" : "";
+        let esHoy = (dia === hoy.getDate() && mesActual === hoy.getMonth() && añoActual === hoy.getFullYear()) ? "hoy" : "";
+        let claseEvento = evento ? "evento" : "";
 
         grid.innerHTML += `
-            <div class="day ${claseExtra} ${claseHoy} ${claseEvento}">
+            <div class="day ${esHoy} ${claseEvento}">
                 <strong>${dia}</strong>
-                ${tieneEvento ? `<span class="evento-texto">${evento}</span>` : ""}
+                ${evento ? `<span class="evento-texto">${evento}</span>` : ""}
             </div>
         `;
     }
 }
 
-// ESTA ES LA FUNCIÓN QUE TE HACÍA FALTA PARA QUE LAS FLECHAS FUNCIONEN
-function cambiarMes(direccion) {
-    mesActual += direccion;
-    if (mesActual < 0) {
-        mesActual = 11;
-        añoActual--;
-    } else if (mesActual > 11) {
-        mesActual = 0;
-        añoActual++;
-    }
+function cambiarMes(dir) {
+    mesActual += dir;
+    if (mesActual < 0) { mesActual = 11; añoActual--; }
+    else if (mesActual > 11) { mesActual = 0; añoActual++; }
     generarCalendario();
 }
 
-// Aseguramos que se dibuje al cargar la página
+// --- INICIALIZACIÓN TOTAL ---
 window.onload = () => {
-    // Si tienes otras funciones de inicialización (carrusel, modo oscuro), ponlas aquí
+    // Modo Oscuro persistente
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-btn').innerHTML = "🌙";
+    }
+    actualizarContador();
+    setInterval(actualizarContador, 60000);
+    setInterval(ejecutarCarrusel, 3500);
     generarCalendario();
 };
 </script>
