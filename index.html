@@ -931,6 +931,20 @@ function generarCalendario() {
     }
 }
 
+function cambiarMes(direccion) {
+    mesActual += direccion;
+
+    if (mesActual < 0) {
+        mesActual = 11;
+        añoActual--;
+    } else if (mesActual > 11) {
+        mesActual = 0;
+        añoActual++;
+    }
+
+    generarCalendario(); // Esto redibuja los días con el nuevo mes
+}
+
 </script>
 </body>
 </html>
