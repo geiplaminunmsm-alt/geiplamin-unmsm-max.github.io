@@ -119,6 +119,14 @@ nav a:active {
     transform: translateY(0px) scale(0.95);
 }
 
+/* Clase que mantiene el botón resaltado */
+nav a.active {
+    color: #ffffff !important;
+    background: rgba(255, 122, 0, 0.3);
+    border-bottom: 2px solid #ff7a00;
+    transform: translateY(-2px);
+}
+    
 /* 4. Secciones y Tarjetas */
 section {
     padding: 60px 20px;
@@ -804,6 +812,19 @@ function mostrarSeccion(idSeccion) {
         seccion.style.display = 'block';
         window.scrollTo(0, 0); 
     }
+
+    // --- Lógica para resaltar el menú ---
+    // 1. Quitamos el resaltado de todos los botones
+    const links = document.querySelectorAll('nav a');
+    links.forEach(link => link.classList.remove('active'));
+
+    // 2. Buscamos el botón que tiene el onclick de esta sección y lo prendemos
+    links.forEach(link => {
+        const clickEvent = link.getAttribute('onclick');
+        if (clickEvent && clickEvent.includes(idSeccion)) {
+            link.classList.add('active');
+        }
+    });
 }
 
 function volverInicio() { mostrarSeccion('inicio'); }
