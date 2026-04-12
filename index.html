@@ -775,8 +775,9 @@ iframe {
             <h3>Contáctanos</h3>
             <p>📧 geiplamin.unmsm.24@gmail.com</p>
             <p>📍 EP Ingeniería de Minas - UNMSM</p>
-            <div class="social-icons">
-                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+
+                <a href="https://www.facebook.com/GrupodeestudioeInvestigaciondePlaneamientoMinero" target="_blank">
+                    <svg viewBox="0 0 24 24">...</svg>
                 </a>
 
                 <a href="https://www.linkedin.com/company/geiplamin-unmsm/" target="_blank">
@@ -796,6 +797,7 @@ iframe {
 </footer>
     
 <script>
+
 // --- 1. NAVEGACIÓN ---
 function ocultarTodo() {
     const secciones = ['inicio', 'software', 'eventos', 'recursos', 'quienes-somos', 'grupos-inv', 'convocatoria'];
@@ -810,7 +812,7 @@ function mostrarSeccion(idSeccion) {
     const seccion = document.getElementById(idSeccion);
     if(seccion) {
         seccion.style.display = 'block';
-        window.scrollTo(0, 0); 
+        window.scrollTo({top: 0, behavior: 'smooth'}); 
     }
 }
 
@@ -843,7 +845,64 @@ function toggleDarkMode() {
     }
 }
 
-// --- 4. CARRUSEL ---
+// --- 4. LÓGICA DEL CALENDARIO (ABRIL 2026) ---
+function generarCalendario() {
+    const grid = document.getElementById('calendar-grid');
+    if(!grid) return;
+    
+    // Abril 2026 empieza un Miércoles (3)
+    const inicioMes = 3; 
+    const diasMes = 30;
+    
+    // Eventos de ejemplo
+    const eventos = {
+        15: "Taller Datamine",
+        20: "Cierre Convocatoria",
+        25: "Charla Magistral"
+    };
+
+    grid.innerHTML = "";
+
+    // Espacios vacíos antes del día 1
+    for(let i = 1; i < inicioMes; i++) {
+        grid.innerHTML += `<div class="day" style="opacity:0.2"></div>`;
+    }
+
+    // Días del mes
+    for(let d = 1; d <= diasMes; d++) {
+        let claseEvento = eventos[d] ? "evento" : "";
+        let textoEvento = eventos[d] ? `<span class="evento-texto">${eventos[d]}</span>` : "";
+        
+        grid.innerHTML += `
+            <div class="day ${claseEvento}">
+                ${d}
+                ${textoEvento}
+            </div>`;
+    }
+}
+
+// --- 5. CONTADOR DE CONVOCATORIA ---
+function actualizarContador() {
+    const fechaLimite = new Date("April 20, 2026 23:59:59").getTime();
+    const ahora = new Date().getTime();
+    const diff = fechaLimite - ahora;
+
+    const texto = document.getElementById('contador-texto');
+    if(!texto) return;
+
+    if (diff < 0) {
+        texto.innerHTML = "CONVOCATORIA CERRADA";
+        return;
+    }
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    texto.innerHTML = `${dias}d ${horas}h ${minutos}m`;
+}
+
+// --- 6. CARRUSEL ---
 let currentSlide = 0;
 function moverCarrusel() {
     const track = document.getElementById('track');
@@ -853,16 +912,20 @@ function moverCarrusel() {
     track.style.transform = `translateX(-${currentSlide * 25}%)`;
 }
 
-// --- 5. INICIALIZACIÓN ---
+// --- 7. INICIALIZACIÓN ---
 window.onload = () => {
+    // Cargar tema guardado
     if (localStorage.getItem('theme') === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
         document.getElementById('theme-btn').innerHTML = "🌙";
     }
+    
     generarCalendario();
     actualizarContador();
-    setInterval(actualizarContador, 60000);
-    setInterval(moverCarrusel, 3500);
+    
+    // Intervalos
+    setInterval(actualizarContador, 60000); // Actualiza el reloj cada minuto
+    setInterval(moverCarrusel, 4000);       // Mueve el carrusel cada 4 seg
 };
     
 </script>
