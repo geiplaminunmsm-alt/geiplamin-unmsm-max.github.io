@@ -688,6 +688,35 @@ iframe {
 
         <style>
             /* --- 1. ESTO VA AQUÍ AL PRINCIPIO --- */
+            :root {
+                    /* COLORES MODO CLARO */
+                    --bg-principal: #ffffff;
+                    --bg-tarjetas: #f4f4f4;
+                    --texto-principal: #333333;
+                    --sombra: rgba(0,0,0,0.1);
+                    --acento-naranja: #ff7a00;
+                }
+                
+                [data-theme="dark"] {
+                    /* COLORES MODO OSCURO */
+                    --bg-principal: #121212;
+                    --bg-tarjetas: #1e1e1e;
+                    --texto-principal: #e0e0e0;
+                    --sombra: rgba(0,0,0,0.5);
+                }
+            /* Adaptación del Buscador al Modo Oscuro */
+            [data-theme="dark"] .gsc-input-box {
+                background-color: #222 !important; /* Fondo oscuro para el cuadro de búsqueda */
+                border: 2px solid var(--acento-naranja) !important;
+            }
+            
+            [data-theme="dark"] .gsc-input {
+                color: #fff !important; /* Texto blanco al escribir */
+            }
+            
+            [data-theme="dark"] .gsc-control-cse {
+                color: var(--texto-principal) !important;
+            }
             * {
                 margin: 0;
                 padding: 0;
