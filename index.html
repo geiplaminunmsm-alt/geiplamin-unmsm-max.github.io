@@ -692,11 +692,62 @@ iframe {
 </section>
 
 <section id="software" style="display:none;">
-    <h2>Software</h2>
-    <p>Manuales, guías y acceso a licencias de software minero.</p>
-    <div class="card">Manual Datamine</div>
-    <div class="card">Manual Mineplan</div>
-    <div class="card">Licencias (acceso restringido)</div>
+    <h2>📖 Wiki de Planeamiento Minero</h2>
+    <p style="max-width: 700px; margin: 0 auto 30px auto;">
+        Conceptos técnicos fundamentales para el diseño, optimización y agendamiento de operaciones mineras.
+    </p>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <input type="text" id="buscador-wiki" onkeyup="filtrarWiki()" placeholder="🔍 Buscar término (ej: Cut-off, Reservas...)" 
+        style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
+    </div>
+
+    <div id="contenedor-wiki">
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Ley de Corte (Cut-off Grade)</h3>
+            <p>Es la ley mínima requerida para que un bloque sea económicamente viable para ser procesado. Define la frontera entre el mineral y el desmonte.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Pit Final (Ultimate Pit)</h3>
+            <p>Contorno geométrico máximo de explotación que reporta el mayor beneficio económico. Se obtiene mediante el algoritmo de Lerch-Grossman o Whittle.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Stripping Ratio (E/M)</h3>
+            <p>Relación desmonte/mineral. Indica la cantidad de material estéril que se debe remover por cada tonelada de mineral extraído.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Reservas Minerales</h3>
+            <p>Parte del Recurso Mineral que es económicamente extraíble. Requiere estudios de pre-factibilidad o factibilidad (Modifying Factors).</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Dilución Minera</h3>
+            <p>Material estéril que se mezcla con el mineral durante el minado, reduciendo la ley de alimentación que llega a la planta de beneficio.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Plan de Minado (LOM)</h3>
+            <p>Life of Mine. Secuenciamiento estratégico de la extracción de bloques a lo largo de la vida útil de la mina para maximizar el VAN.</p>
+        </div>
+        
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Bench Height (Altura de Banco)</h3>
+            <p>Dimensión vertical del escalón de minado. Se diseña en base a la selectividad de la pala o excavadora y la estabilidad geomecánica.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Bermas</h3>
+            <p>Plataformas horizontales diseñadas para detener la caída de rocas desde bancos superiores o para el tránsito seguro de camiones.</p>
+        </div>
+
+        <div class="card wiki-item">
+            <h3 style="color: var(--acento-naranja);">Bloque de Minado</h3>
+            <p>Unidad básica de volumen (voxel) en un modelo geológico que contiene información de ley, densidad, tipo de roca y categoría.</p>
+        </div>
+    </div>
 </section>
 
 
