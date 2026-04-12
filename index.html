@@ -127,7 +127,7 @@ button:hover {
     background: #e56700;
 }
 
-/* 5--- CALENDARIO: DISEÑO ORIGINAL RECUPERADO --- */
+/* --- CALENDARIO: DISEÑO PRO INTEGRADO (FINES DE SEMANA + HOY) --- */
 .calendar {
     max-width: 900px;
     margin: 30px auto;
@@ -195,6 +195,19 @@ button:hover {
     cursor: pointer;
 }
 
+/* 🌙 FINES DE SEMANA (Crema/Melón suave) */
+.day.weekend {
+    background-color: #fff5e6 !important; 
+    color: #333;
+}
+
+/* 📍 INDICADOR DÍA ACTUAL */
+.day.hoy {
+    border: 2px solid #ff7a00 !important;
+    box-shadow: 0 0 15px rgba(255, 122, 0, 0.4);
+    transform: scale(1.02);
+}
+
 /* Efecto Hover Pro */
 .day:hover {
     transform: scale(1.05) translateY(-5px);
@@ -203,12 +216,13 @@ button:hover {
     border-color: #ff7a00;
 }
 
-/* DÍAS CON EVENTO (Degradado Original) */
+/* DÍAS CON EVENTO (Tu degradado original) */
 .day.evento {
     background: linear-gradient(135deg, #ff7a00, #ffb347) !important;
     color: white !important;
     font-weight: bold;
     box-shadow: 0 0 15px rgba(255, 122, 0, 0.4);
+    border: none;
 }
 
 .evento-texto {
@@ -224,6 +238,12 @@ button:hover {
 [data-theme="dark"] .calendar {
     border: 1px solid var(--acento-naranja);
     box-shadow: 0 0 20px rgba(255, 157, 71, 0.15);
+}
+
+/* Ajuste para fines de semana en modo oscuro */
+[data-theme="dark"] .day.weekend {
+    background-color: #1a1612 !important;
+    color: #ff9d47;
 }
 
 /* 6. Repositorio de Archivos */
@@ -833,39 +853,85 @@ function toggleDarkMode() {
     }
 }
 
-// --- 4. LÓGICA DEL CALENDARIO (ABRIL 2026) ---
-function generarCalendario() {
-    const grid = document.getElementById('calendar-grid');
-    if(!grid) return;
-    
-    grid.innerHTML = "";
-    // Abril 2026 empieza un Miércoles (3)
-    const inicioMes = 3; 
-    const diasMes = 30;
-    
-    const eventos = {
-        15: "Taller Datamine",
-        20: "Cierre Convocatoria",
-        25: "Charla Magistral"
-    };
-
-    // Espacios vacíos con opacidad baja
-    for(let i = 1; i < inicioMes; i++) {
-        grid.innerHTML += `<div class="day" style="opacity:0.2; pointer-events:none;"></div>`;
-    }
-
-    // Días del mes con el formato visual Pro
-    for(let d = 1; d <= diasMes; d++) {
-        const esEvento = eventos[d] ? "evento" : "";
-        const textoEvento = eventos[d] ? `<span class="evento-texto">${eventos[d]}</span>` : "";
-        
-        grid.innerHTML += `
-            <div class="day ${esEvento}">
-                <span style="font-size: 14px; font-weight: bold;">${d}</span>
-                ${textoEvento}
-            </div>`;
-    }
+/* 4--- CALENDARIO: DISEÑO PRO INTEGRADO --- */
+.calendar {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #000000;
+    border-radius: 15px;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 122, 0, 0.2);
 }
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #000;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #ff7a00;
+    color: #000;
+    font-weight: bold;
+}
+
+.days div { padding: 12px; text-align: center; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--bg-principal);
+    padding: 10px;
+    gap: 5px;
+}
+
+.day {
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    background: var(--bg-tarjetas);
+    color: var(--texto-principal);
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+/* 🌙 FINES DE SEMANA (Crema/Melón) */
+.day.weekend {
+    background-color: #fff5e6 !important; 
+    color: #333;
+}
+
+/* 📍 INDICADOR DÍA ACTUAL */
+.day.hoy {
+    border: 2px solid #ff7a00 !important;
+    box-shadow: 0 0 15px rgba(255, 122, 0, 0.4);
+}
+
+/* 🔥 DÍAS CON EVENTO (Degradado Naranja) */
+.day.evento {
+    background: linear-gradient(135deg, #ff7a00, #ffb347) !important;
+    color: white !important;
+    font-weight: bold;
+    border: none;
+}
+
+.evento-texto {
+    display: block;
+    font-size: 10px;
+    margin-top: 8px;
+    padding: 4px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 5px;
+}
+
+[data-theme="dark"] .day.weekend { background-color: #1a1612 !important; color: #ff9d47; }
     
 // --- 5. CONTADOR DE CONVOCATORIA ---
 function actualizarContador() {
