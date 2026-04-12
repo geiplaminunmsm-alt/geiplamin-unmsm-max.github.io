@@ -75,6 +75,18 @@ nav a {
     font-weight: bold;
 }
 
+/* Estilo del Título Principal */
+.titulo-centrado {
+    text-align: center;
+    color: #ff7a00; /* Naranja GEIPLAMIN */
+    font-size: 32px; /* Tamaño grande para PC */
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    width: 100%;
+    clear: both;
+}
+    
 /* 4. Secciones y Tarjetas */
 section {
     padding: 60px 20px;
@@ -418,8 +430,16 @@ button:hover {
     }
 
     .titulo-centrado {
-        font-size: 20px;
-        margin-top: 15px;
+        display: block;
+        width: 100%;
+        text-align: center;
+        clear: both; 
+        
+        color: #ff7a00; 
+        font-size: 24px; /* Un poco más pequeño para que no se corte en celulares */
+        font-weight: bold;
+        margin-top: 25px; /* Espacio justo debajo del banner */
+        margin-bottom: 15px;
     }
 
     /* Ajuste para que el menú no empuje la pantalla */
@@ -430,7 +450,7 @@ button:hover {
     }
 
     nav a {
-        margin: 5px 8px; /* Reducido ligeramente para que quepan */
+        margin: 5px 8px;
         font-size: 13px;
         display: inline-block;
     }
@@ -440,7 +460,7 @@ button:hover {
         text-align: center;
         padding: 30px 10px;
         width: 100%;
-        box-sizing: border-box; /* Fundamental para que el padding no ensanche el footer */
+        box-sizing: border-box;
     }
 
     .footer-section {
@@ -455,19 +475,21 @@ button:hover {
 
     /* Asegura que el cuadro blanco no se salga */
     .lista-repo {
-        width: 90%;
-        max-width: 90vw; 
+        width: 95%; /* Un poco más ancho para aprovechar el espacio */
+        max-width: 95vw; 
         padding: 15px;
         box-sizing: border-box;
+        margin: 0 auto; /* Lo mantiene centrado */
     }
 
-    /* Si las tarjetas aún causan scroll, esto las mantiene dentro sin cambiar su tamaño */
+    /* Contenedor general */
     section {
-        padding: 40px 10px;
+        padding: 20px 10px;
         overflow-x: hidden;
         box-sizing: border-box;
     }
-}
+
+    /* --- FIN DE LA SECCIÓN CORREGIDA --- */
 
 /* 9 Botón Flotante para cambiar Modo (NUEVO) */
 .dark-mode-toggle {
