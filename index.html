@@ -698,54 +698,34 @@ iframe {
     </p>
 
     <div style="text-align: center; margin-bottom: 30px;">
-        <input type="text" id="buscador-wiki" onkeyup="filtrarWiki()" placeholder="🔍 Buscar término (ej: Cut-off, Reservas...)" 
+        <input type="text" id="buscador-wiki-exclusivo" onkeyup="ejecutarFiltroWiki()" placeholder="🔍 Buscar término técnico..." 
         style="padding: 12px; width: 80%; max-width: 400px; border-radius: 25px; border: 2px solid var(--acento-naranja); outline: none; background: var(--bg-tarjetas); color: var(--texto-principal);">
     </div>
 
-    <div id="contenedor-wiki">
-        <div class="card wiki-item">
+    <div id="contenedor-wiki-real">
+        <div class="card card-wiki-geiplamin">
             <h3 style="color: var(--acento-naranja);">Ley de Corte (Cut-off Grade)</h3>
             <p>Es la ley mínima requerida para que un bloque sea económicamente viable para ser procesado. Define la frontera entre el mineral y el desmonte.</p>
         </div>
 
-        <div class="card wiki-item">
+        <div class="card card-wiki-geiplamin">
             <h3 style="color: var(--acento-naranja);">Pit Final (Ultimate Pit)</h3>
-            <p>Contorno geométrico máximo de explotación que reporta el mayor beneficio económico. Se obtiene mediante el algoritmo de Lerch-Grossman o Whittle.</p>
+            <p>Contorno geométrico máximo de explotación que reporta el mayor beneficio económico. Se obtiene mediante algoritmos como Lerch-Grossman.</p>
         </div>
 
-        <div class="card wiki-item">
+        <div class="card card-wiki-geiplamin">
             <h3 style="color: var(--acento-naranja);">Stripping Ratio (E/M)</h3>
             <p>Relación desmonte/mineral. Indica la cantidad de material estéril que se debe remover por cada tonelada de mineral extraído.</p>
         </div>
 
-        <div class="card wiki-item">
+        <div class="card card-wiki-geiplamin">
             <h3 style="color: var(--acento-naranja);">Reservas Minerales</h3>
-            <p>Parte del Recurso Mineral que es económicamente extraíble. Requiere estudios de pre-factibilidad o factibilidad (Modifying Factors).</p>
-        </div>
-
-        <div class="card wiki-item">
-            <h3 style="color: var(--acento-naranja);">Dilución Minera</h3>
-            <p>Material estéril que se mezcla con el mineral durante el minado, reduciendo la ley de alimentación que llega a la planta de beneficio.</p>
-        </div>
-
-        <div class="card wiki-item">
-            <h3 style="color: var(--acento-naranja);">Plan de Minado (LOM)</h3>
-            <p>Life of Mine. Secuenciamiento estratégico de la extracción de bloques a lo largo de la vida útil de la mina para maximizar el VAN.</p>
+            <p>Parte del Recurso Mineral que es económicamente extraíble tras aplicar factores modificadores (estudios de factibilidad).</p>
         </div>
         
-        <div class="card wiki-item">
-            <h3 style="color: var(--acento-naranja);">Bench Height (Altura de Banco)</h3>
-            <p>Dimensión vertical del escalón de minado. Se diseña en base a la selectividad de la pala o excavadora y la estabilidad geomecánica.</p>
-        </div>
-
-        <div class="card wiki-item">
-            <h3 style="color: var(--acento-naranja);">Bermas</h3>
-            <p>Plataformas horizontales diseñadas para detener la caída de rocas desde bancos superiores o para el tránsito seguro de camiones.</p>
-        </div>
-
-        <div class="card wiki-item">
-            <h3 style="color: var(--acento-naranja);">Bloque de Minado</h3>
-            <p>Unidad básica de volumen (voxel) en un modelo geológico que contiene información de ley, densidad, tipo de roca y categoría.</p>
+        <div class="card card-wiki-geiplamin">
+            <h3 style="color: var(--acento-naranja);">LOM (Life of Mine)</h3>
+            <p>Vida útil de la mina. Representa el tiempo total proyectado de explotación desde el inicio hasta el agotamiento de las reservas.</p>
         </div>
     </div>
 </section>
@@ -892,6 +872,8 @@ function filtrarArchivos() {
         items[i].style.display = (texto.toUpperCase().indexOf(filtro) > -1) ? "" : "none";
     }
 }
+
+
 
 // --- 3. MODO OSCURO (MODO MINERO) ---
 function toggleDarkMode() {
@@ -1052,6 +1034,25 @@ function cambiarMes(direccion) {
     }
 
     generarCalendario(); // Esto redibuja los días con el nuevo mes
+}
+
+// --- NUEVA FUNCIÓN INDEPENDIENTE PARA LA WIKI ---
+function ejecutarFiltroWiki() {
+    const input = document.getElementById('buscador-wiki-exclusivo');
+    const filtro = input.value.toUpperCase();
+    const tarjetasWiki = document.getElementsByClassName('card-wiki-geiplamin');
+
+    for (let i = 0; i < tarjetasWiki.length; i++) {
+        // Buscamos solo en el título (h3) y el párrafo (p) de la tarjeta de la wiki
+        const titulo = tarjetasWiki[i].getElementsByTagName('h3')[0].innerText;
+        const contenido = tarjetasWiki[i].getElementsByTagName('p')[0].innerText;
+        
+        if (titulo.toUpperCase().indexOf(filtro) > -1 || contenido.toUpperCase().indexOf(filtro) > -1) {
+            tarjetasWiki[i].style.display = ""; // Se muestra
+        } else {
+            tarjetasWiki[i].style.display = "none"; // Se oculta
+        }
+    }
 }
 
 </script>
