@@ -40,11 +40,13 @@ header {
     background-repeat: no-repeat;
     width: 100%;
     
-    /* CAMBIO CLAVE: Quitamos aspect-ratio y ponemos un alto máximo */
-    height: 120px; /* Ajusta este número (100px, 120px) según tu imagen */
+    /* Cambia este número: 5 hace el header más delgado, 3 lo hace más alto */
+    aspect-ratio: 5 / 1; 
+    
+    height: auto;
     margin: 0;
     padding: 0;
-    background-color: #000; 
+    background-color: #000; /* Fondo negro por si la imagen es pequeña */
 }
 
 /* 3. Navegación (Ajuste para que suba y se pegue al header) */
@@ -65,36 +67,64 @@ nav {
     }
 }
     
-/* --- 3. Navegación ULTRA-DELGADA --- */
+/* 3. Navegación - Contenedor Negro Total */
 nav {
     background: #000000;
-    /* Eliminamos el padding superior (0px) para que pegue arriba */
-    padding: 0px 10px 5px 10px; 
-    text-align: center;
+    width: 100%;
     position: sticky;
     top: 0;
     z-index: 100;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    /* Quitamos el margen negativo para evitar saltos visuales */
-    margin-top: 0; 
+    justify-content: center; /* Centra el bloque de botones */
+    margin-top: -1px;
 }
 
-/* Links compactos */
+/* Contenedor interno que limita el ancho de los botones */
+.nav-inner {
+    width: 100%;
+    max-width: 1000px; /* Ajusta este valor si quieres que los botones estén más juntos o separados */
+    display: flex;
+    justify-content: space-evenly; /* Distribuye botones con espacio igual */
+    align-items: center;
+    padding: 5px 0;
+}
+
+/* Links de la navegación */
 nav a {
     color: #ffb066;
-    /* Bajamos el margen vertical de 5px a 2px */
-    margin: 2px 10px; 
     text-decoration: none;
     font-weight: bold;
-    display: inline-block;
-    /* Reducimos el padding de 10px a 8px para que la barra negra sea más fina */
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 12px 15px;
+    font-size: 14px; /* Tamaño de letra más elegante */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
+}
+
+/* Hover y Estados (Mantenemos tus efectos) */
+nav a:hover {
+    color: #ffffff;
+    background: rgba(255, 122, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+nav a.active {
+    color: #ffffff !important;
+    background: rgba(255, 122, 0, 0.2);
+    border-bottom: 2px solid #ff7a00;
+}
+
+/* --- Ajuste para Celulares --- */
+@media (max-width: 768px) {
+    .nav-inner {
+        flex-wrap: wrap; /* En celular sí permitimos que bajen */
+        justify-content: center;
+        gap: 5px;
+    }
+    nav a {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
 }
     
 /* 4. Secciones y Tarjetas */
